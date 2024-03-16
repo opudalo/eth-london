@@ -71,23 +71,12 @@ interface APIRATEONFIRE {
   callExecuteOnContract: (receiverAddress: string, index: number) => Promise<void>;
 }
 
-function ReadUniBalance() {
+function getTokenBalanceOfUser(userAddress: string, tokenAddress: string) {
   const { data: balance, isError, isLoading } = useContractRead({
-    address: '0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984',
+    address: tokenAddress,
     abi: erc20ABI,
     functionName: 'balanceOf',
-    args: ['0xE2eE625D83C68123aCa4251d6a82f23b70d9eEE3']
-  })
-
-  return !!balance ? Number(balance) / 1e18 : 0
-}
-
-function ReadWethBalance() {
-  const { data: balance, isError, isLoading } = useContractRead({
-    address: '0xfFf9976782d46CC05630D1f6eBAb18b2324d6B14',
-    abi: erc20ABI,
-    functionName: 'balanceOf',
-    args: ['0xE2eE625D83C68123aCa4251d6a82f23b70d9eEE3']
+    args: [userAddress]
   })
 
   return !!balance ? Number(balance) / 1e18 : 0
@@ -221,7 +210,7 @@ function callExecuteOnLastOrder(receiver: string) {
 const getDefaultOrderFormState = (liquidityPool: LiquidityPool): OrderFormState => ({
   liquidityPool,
   isBuyOperation: true,
-  amount: ReadUniBalance(),
+  amount: getTokenBalanceOfUser('0xE2eE625D83C68123aCa4251d6a82f23b70d9eEE3', '0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984'),
   frequency: 1000 * 60 * 60, // 1 hour
   commitedFunds: 0,
 });
@@ -339,7 +328,7 @@ const Home: NextPage = () => {
             <InputField label="Amount to spend">
               <Input
                 type="number"
-                value={ReadUniBalance}
+                value={orderFormState.lens("amount")}
                 customValueWhenBlurred={orderFormState.lens("amount").view(formatNum)}
               />
             </InputField>
