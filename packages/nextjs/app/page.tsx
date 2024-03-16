@@ -7,7 +7,7 @@ import { Atom, F, ReadOnlyAtom, classes } from "@grammarly/focal";
 import type { NextPage } from "next";
 import { useTheme } from "next-themes";
 import { erc20ABI, useAccount, useContractRead } from "wagmi";
-import { TestTokens, UniTestToken, WETHTestToken } from "~~/components/stub-data";
+import { TestTokens, TestUniLiquidityPool, UniTestToken, WETHTestToken } from "~~/components/stub-data";
 import { formatNum, times } from "~~/components/utils";
 import { Button } from "~~/components/x/button";
 import { Input } from "~~/components/x/input";
@@ -194,12 +194,9 @@ function callExecuteOnLastOrder(receiver: string) {
 const getDefaultOrderFormState = (liquidityPool: LiquidityPool): OrderFormState => ({
   liquidityPool,
   operation: "buy",
-  amount: getTokenBalanceOfUser(
-    "0xE2eE625D83C68123aCa4251d6a82f23b70d9eEE3",
-    "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
-  ),
-  frequency: 1000 * 60 * 60, // 1 hour
-  commitedFunds: 0,
+  amount: 3,
+  frequency: 1000 * 30, // 1 hour
+  commitedFunds: 0.1,
 });
 
 const Step: React.FC<
@@ -214,27 +211,6 @@ const Step: React.FC<
       {children}
     </F.div>
   );
-};
-
-const PepeCoin: LiquidityPool = {
-  addr: "0xddd23787a6b80a794d952f5fb036d0b31a8e6aff",
-  token1: "0xa9e8acf069c58aec8825542845fd754e41a9489a",
-  token1Symbol: "PEPE",
-  token2: "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
-  token2Symbol: "ETH",
-  currentPrice: 0.000045,
-};
-
-const ETHUSDT: LiquidityPool = {
-  // ETH/USDT
-  addr: "0x0d4a11d5eeaac28ec3f61d100daf4d40471f1852",
-  // ETH
-  token1: "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
-  token1Symbol: "ETH",
-  // USDT
-  token2: "0xdac17f958d2ee523a2206206994597c13d831ec7",
-  token2Symbol: "USDT",
-  currentPrice: 3669.45,
 };
 
 const getLiquidtyPoolFromAddress = (addr: string): LiquidityPool => {
@@ -256,9 +232,7 @@ const Home: NextPage = () => {
   const { address: connectedAddress } = useAccount();
 
   const tokenContractAddress = Atom.create<string>(UniTestToken.addr);
-  const orderFormState = Atom.create<OrderFormState>(
-    getDefaultOrderFormState(Math.random() > 0.5 ? ETHUSDT : PepeCoin),
-  );
+  const orderFormState = Atom.create<OrderFormState>(getDefaultOrderFormState(TestUniLiquidityPool));
 
   return (
     <>
