@@ -11,9 +11,8 @@ import { Address } from "~~/components/scaffold-eth";
 import { Button } from "~~/components/x/button";
 import { Input } from "~~/components/x/input";
 import { InputField } from "~~/components/x/inputField";
+import { Select } from "~~/components/x/select";
 import { Switcher } from "~~/components/x/switcher";
-import { get } from "http";
-import { getMaxListeners } from "process";
 
 interface LiquidityPool {
   addr: string;
@@ -64,6 +63,24 @@ const formatInputValue = {
   mantissa: 3,
 };
 
+const formatNum = (x: number) => (x ? numbro(x).format(formatInputValue) : x.toString());
+
+const min = 60 * 1000;
+const hour = 60 * min;
+const day = 24 * hour;
+
+const times = {
+  "1 min": min,
+  "10 min": 10 * min,
+  "15 min": 15 * min,
+  "30 min": 30 * min,
+  "1 hour": hour,
+  "4 hours": 4 * hour,
+  "12 hours": 12 * hour,
+  "1 day": day,
+  "1 week": 7 * day,
+};
+
 const PepeCoin: LiquidityPool = {
   addr: "0xddd23787a6b80a794d952f5fb036d0b31a8e6aff",
   token1: "0xa9e8acf069c58aec8825542845fd754e41a9489a",
@@ -86,8 +103,9 @@ const ETHUSDT: LiquidityPool = {
 };
 
 const getLiquidtyPoolFromAddress = (addr: string): LiquidityPool => {
- // todo - implement properly
-}
+  // todo - implement properly
+  return {} as any;
+};
 
 const Home: NextPage = () => {
   const { address: connectedAddress } = useAccount();
@@ -110,7 +128,6 @@ const Home: NextPage = () => {
     });
   }, []);
 
-  const formatNum = (x: number) => (x ? numbro(x).format(formatInputValue) : x.toString());
   return (
     <>
       <div className="flex flex-col flex-grow pt-10 x-main-container">
@@ -140,11 +157,19 @@ const Home: NextPage = () => {
                 customValueWhenBlurred={orderFormState.lens("amount").view(formatNum)}
               />
             </InputField>
-            <InputField label="Frequency (ms)">
-              <Input type="number" value={orderFormState.lens("frequency")} />
+            <InputField label="Frequency (every)">
+              <Select value={orderFormState.lens("frequency")}>
+                {Object.entries(times).map(([lbl, val]) => (
+                  <option value={val}>{lbl}</option>
+                ))}
+              </Select>
             </InputField>
             <InputField label="Committed Funds">
-              <Input type="number" value={orderFormState.lens("commitedFunds")} />
+              <Input
+                type="number"
+                value={orderFormState.lens("commitedFunds")}
+                customValueWhenBlurred={orderFormState.lens("commitedFunds").view(formatNum)}
+              />
             </InputField>
           </Step>
           <div>
