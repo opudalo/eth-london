@@ -15,6 +15,11 @@ export interface Token {
   symbol: string;
 }
 
+export interface Dex {
+  router: string;
+  name: string;
+}
+
 export const UniTestToken = {
   addr: "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984",
   symbol: "UNI",
@@ -23,6 +28,31 @@ export const UniTestToken = {
 export const WETHTestToken = {
   addr: "0xfff9976782d46cc05630d1f6ebab18b2324d6b14",
   symbol: "WETH",
+};
+
+export const CakeTestToken = {
+  addr: "0x8d008B313C1d6C7fE2982F62d32Da7507cF43551",
+  symbol: "CAKE",
+};
+
+export const UniswapSepolia = {
+  router: "0x3bFA4769FB09eefC5a80d6E87c3B9C650f7Ae48E",
+  name: "Uniswap",
+};
+
+export const UniswapSepoliaBase = {
+  router: "0x94cC0AaC535CCDB3C01d6787D6413C739ae12bc4",
+  name: "Uniswap",
+};
+
+export const UniswapSepoliaArbitrum = {
+  router: "0x101F443B4d1b059569D643917553c771E1b9663E",
+  name: "Uniswap",
+};
+
+export const PancakeswapTestnet = {
+  router: "0x9Ac64Cc6e4415144C455BD8E4837Fea55603e5c3",
+  name: "Pancakeswap",
 };
 
 export const TestUniLiquidityPool: LiquidityPool = {
@@ -34,7 +64,9 @@ export const TestUniLiquidityPool: LiquidityPool = {
   currentPrice: 0.04,
 };
 
-export const TestTokens: Token[] = [UniTestToken, WETHTestToken];
+export const TestTokens: Token[] = [UniTestToken, WETHTestToken, CakeTestToken];
+
+export const Dexs: Dex[] = [UniswapSepolia, UniswapSepoliaBase, UniswapSepoliaArbitrum, PancakeswapTestnet];
 
 export const ordersStub: Order[] = [
   {

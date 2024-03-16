@@ -6,7 +6,7 @@ import $ from "./page.module.css";
 import { Atom, F, ReadOnlyAtom, classes } from "@grammarly/focal";
 import type { NextPage } from "next";
 import { erc20ABI, useAccount, useContractRead } from "wagmi";
-import { TestTokens, TestUniLiquidityPool, UniTestToken, WETHTestToken } from "~~/components/stub-data";
+import { CakeTestToken, Dexs, TestUniLiquidityPool, TestTokens, UniTestToken, UniswapSepolia, WETHTestToken } from "~~/components/stub-data";
 import { formatNum, times } from "~~/components/utils";
 import { Button } from "~~/components/x/button";
 import { Input } from "~~/components/x/input";
@@ -194,8 +194,11 @@ const getDefaultOrderFormState = (liquidityPool: LiquidityPool): OrderFormState 
   liquidityPool,
   operation: "buy",
   amount: 3,
-  frequency: 1000 * 30, // 1 hour
-  commitedFunds: 0.1,
+  frequency: 1000 * 60 * 60, // 1 hour
+  commitedFunds: getTokenBalanceOfUser(
+    "0xE2eE625D83C68123aCa4251d6a82f23b70d9eEE3",
+    "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
+  ),
 });
 
 const Step: React.FC<
@@ -220,6 +223,7 @@ const getLiquidtyPoolFromAddress = (addr: string): LiquidityPool => {
 const myBalance = {
   [UniTestToken.addr]: 100,
   [WETHTestToken.addr]: 4,
+  [CakeTestToken.addr]: 200
 };
 
 type Balance = typeof myBalance;
@@ -276,6 +280,7 @@ const XXX = () => {
   const tokenContractAddress = Atom.create<string>(UniTestToken.addr);
   const orderFormState = Atom.create<OrderFormState>(getDefaultOrderFormState(TestUniLiquidityPool));
   const isSubmitted = Atom.create(false);
+  const dexRouter = Atom.create<string>(UniswapSepolia.router);
 
   return (
     <>
@@ -307,6 +312,14 @@ const XXX = () => {
                   {Object.entries(times).map(([lbl, val], inx) => (
                     <option key={inx} value={val}>
                       {lbl}
+                    </option>
+                  ))}
+                </Select>{" "}
+                 on {" "}
+                 <Select value={dexRouter} size="large">
+                  {Dexs.map((x, i) => (
+                    <option key={i} value={x.router}>
+                      {x.name}
                     </option>
                   ))}
                 </Select>
