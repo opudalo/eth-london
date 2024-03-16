@@ -62,8 +62,8 @@ contract DcaExecutor {
                 }
             )
         );
+        activeRequestsLength[msg.sender] = dcaRequests[msg.sender].length;
         token1.approve(address(router), token1Amount);
-        activeRequestsLength[msg.sender]++;
         emit Deposited(msg.sender, address(token1), token1Amount, address(token2), router, swapExecutionPeriod, startTimestamp, numberOfSwaps);
     }
 
@@ -113,6 +113,7 @@ contract DcaExecutor {
         dcaRequestsCompleted[receiver].push(request);
         dcaRequests[receiver][index] = dcaRequests[receiver][dcaRequests[receiver].length - 1];
         dcaRequests[receiver].pop();
-        activeRequestsLength[receiver]--;
+        activeRequestsLength[receiver] = dcaRequests[receiver].length;
+        completedRequestsLength[receiver] = dcaRequestsCompleted[receiver].length;
     }
 }
