@@ -6,13 +6,14 @@ import $ from "./page.module.css";
 import { Atom, F, ReadOnlyAtom, classes } from "@grammarly/focal";
 import type { NextPage } from "next";
 import numbro from "numbro";
-import { useAccount } from "wagmi";
+import { erc20ABI, useAccount, useContractRead } from "wagmi";
 import { Address } from "~~/components/scaffold-eth";
 import { Button } from "~~/components/x/button";
 import { Input } from "~~/components/x/input";
 import { InputField } from "~~/components/x/inputField";
 import { Select } from "~~/components/x/select";
 import { Switcher } from "~~/components/x/switcher";
+import { useScaffoldContract, useScaffoldContractRead, useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 
 interface LiquidityPool {
   addr: string;
@@ -70,10 +71,157 @@ interface APIRATEONFIRE {
   callExecuteOnContract: (receiverAddress: string, index: number) => Promise<void>;
 }
 
+function ReadUniBalance() {
+  const { data: balance, isError, isLoading } = useContractRead({
+    address: '0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984',
+    abi: erc20ABI,
+    functionName: 'balanceOf',
+    args: ['0xE2eE625D83C68123aCa4251d6a82f23b70d9eEE3']
+  })
+
+  return !!balance ? Number(balance) / 1e18 : 0
+}
+
+function ReadWethBalance() {
+  const { data: balance, isError, isLoading } = useContractRead({
+    address: '0xfFf9976782d46CC05630D1f6eBAb18b2324d6B14',
+    abi: erc20ABI,
+    functionName: 'balanceOf',
+    args: ['0xE2eE625D83C68123aCa4251d6a82f23b70d9eEE3']
+  })
+
+  return !!balance ? Number(balance) / 1e18 : 0
+}
+
+function getOrdersHistory(address: string) {
+  const { data: requestLength } = useScaffoldContractRead({
+    contractName: 'DcaExecutor',
+    functionName: 'completedRequestsLength',
+    args: [
+      address
+    ]
+  })
+  
+  const requestHistory = []
+  for (let i = 0; i < Number(requestLength); i++) {
+    const { data: request } = useScaffoldContractRead({
+      contractName: 'DcaExecutor',
+      functionName: 'dcaRequestsCompleted',
+      args: [
+        address,
+        BigInt(i)
+      ]
+    })
+    requestHistory.push(request)
+  }
+  return requestHistory
+}
+
+function getActiveOrders(address: string) {
+  const { data: requestLength } = useScaffoldContractRead({
+    contractName: 'DcaExecutor',
+    functionName: 'activeRequestsLength',
+    args: [
+      address
+    ]
+  })
+  
+  const requestHistory = []
+  for (let i = 0; i < Number(requestLength); i++) {
+    const { data: request } = useScaffoldContractRead({
+      contractName: 'DcaExecutor',
+      functionName: 'dcaRequests',
+      args: [
+        address,
+        BigInt(i)
+      ]
+    })
+    requestHistory.push(request)
+  }
+  return requestHistory
+}
+
+function submitOrder(token1: string, token2: string, token1Amount: number, numberOfSwaps: number, swapExecutionPeriod: number, startTimestamp: number, endTimestamp: number) {
+  const { writeAsync: submitOrder } = useScaffoldContractWrite({
+    contractName: "DcaExecutor",
+    functionName: "submitDcaRequest",
+    args: [
+      token1,
+      token2,
+      BigInt(token1Amount * 1e18),
+      '0x3bFA4769FB09eefC5a80d6E87c3B9C650f7Ae48E',
+      BigInt(numberOfSwaps),
+      BigInt(swapExecutionPeriod),
+      BigInt(startTimestamp)
+    ]
+  })
+}
+
+function cancelOrder(receiver: string, requestIndex: number) {
+  const { writeAsync: cancelOrder } = useScaffoldContractWrite({
+    contractName: "DcaExecutor",
+    functionName: "cancelDcaRequest",
+    args: [
+      receiver,
+      BigInt(requestIndex)
+    ]
+  })
+}
+
+function cancelLastOrder(receiver: string) {
+  const { data: requestLength } = useScaffoldContractRead({
+    contractName: 'DcaExecutor',
+    functionName: 'activeRequestsLength',
+    args: [
+      receiver
+    ]
+  })
+  
+  const { writeAsync: cancelLastOrder } = useScaffoldContractWrite({
+    contractName: "DcaExecutor",
+    functionName: "cancelDcaRequest",
+    args: [
+      receiver,
+      requestLength!! - BigInt(1)
+    ]
+  })
+}
+
+function callExecuteOnOrder(receiver: string, requestIndex: number) {
+  const { writeAsync: callExecuteOnOrder } = useScaffoldContractWrite({
+    contractName: "DcaExecutor",
+    functionName: "executeSwap",
+    args: [
+      receiver,
+      BigInt(requestIndex)
+    ]
+  })
+}
+
+function callExecuteOnLastOrder(receiver: string) {
+  const { data: requestLength } = useScaffoldContractRead({
+    contractName: 'DcaExecutor',
+    functionName: 'activeRequestsLength',
+    args: [
+      receiver
+    ]
+  })
+  
+  const { writeAsync: callExecuteOnLastOrder } = useScaffoldContractWrite({
+    contractName: "DcaExecutor",
+    functionName: "executeSwap",
+    args: [
+      receiver,
+      requestLength!! - BigInt(1)
+    ]
+  })
+}
+
+
 const getDefaultOrderFormState = (liquidityPool: LiquidityPool): OrderFormState => ({
   liquidityPool,
   isBuyOperation: true,
-  amount: 0,
+  amount: ReadUniBalance(),
   frequency: 1000 * 60 * 60, // 1 hour
   commitedFunds: 0,
 });
@@ -154,13 +302,14 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     lp.subscribe(x => {
+      debugger
       console.log(x);
       setTimeout(() => {
         // todo - implement properly
-        const getLiquidityPoolFromAddress = (addr: string): LiquidityPool => {
+        const getLiquidityPoolMetadata = (addr: string): LiquidityPool => {
           return orderFormState.get().liquidityPool?.addr === PepeCoin.addr ? ETHUSDT : PepeCoin;
         };
-        orderFormState.set(getDefaultOrderFormState(getLiquidityPoolFromAddress(x)));
+        orderFormState.set(getDefaultOrderFormState(getLiquidityPoolMetadata(x)));
       }, 500);
     });
   }, []);
@@ -187,10 +336,10 @@ const Home: NextPage = () => {
               <span className={$.operation}>Sell</span>
             </div>
 
-            <InputField label="Amount">
+            <InputField label="Amount to spend">
               <Input
                 type="number"
-                value={orderFormState.lens("amount")}
+                value={ReadUniBalance}
                 customValueWhenBlurred={orderFormState.lens("amount").view(formatNum)}
               />
             </InputField>
