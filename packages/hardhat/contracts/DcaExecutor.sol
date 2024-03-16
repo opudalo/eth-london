@@ -22,7 +22,9 @@ contract DcaExecutor {
     }
 
     address[] public receivers;
+    mapping(address => uint256) public activeRequestsLength;
     mapping(address => DcaRequest[]) public dcaRequests;
+    mapping(address => uint256) public completedRequestsLength;
     mapping(address => DcaRequest[]) public dcaRequestsCompleted;
 
     event Deposited(address indexed receiver, address token1Address, uint256 token1Amount, address token2Address, ISwapRouter02 router, uint256 swapExecutionPeriod, uint256 swapStartTime, uint256 numberOfSwaps);
@@ -61,6 +63,7 @@ contract DcaExecutor {
             )
         );
         token1.approve(address(router), token1Amount);
+        activeRequestsLength[msg.sender]++;
         emit Deposited(msg.sender, address(token1), token1Amount, address(token2), router, swapExecutionPeriod, startTimestamp, numberOfSwaps);
     }
 
@@ -110,5 +113,6 @@ contract DcaExecutor {
         dcaRequestsCompleted[receiver].push(request);
         dcaRequests[receiver][index] = dcaRequests[receiver][dcaRequests[receiver].length - 1];
         dcaRequests[receiver].pop();
+        activeRequestsLength[receiver]--;
     }
 }
