@@ -159,8 +159,10 @@ const Home: NextPage = () => {
             </InputField>
             <InputField label="Frequency (every)">
               <Select value={orderFormState.lens("frequency")}>
-                {Object.entries(times).map(([lbl, val]) => (
-                  <option value={val}>{lbl}</option>
+                {Object.entries(times).map(([lbl, val], inx) => (
+                <option key={inx} value={val}>
+                    {lbl}
+                  </option>
                 ))}
               </Select>
             </InputField>
