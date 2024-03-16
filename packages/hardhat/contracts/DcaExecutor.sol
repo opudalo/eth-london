@@ -16,17 +16,19 @@ contract DcaExecutor {
         ISwapRouter02 router;
         uint256 swapExecutionPeriod;
         uint256 startTimestamp;
-        uint256 numberOfSwaps;
+        uint256 numberOfSwapsToExecute;
+        uint256 numberOfSwapsExecuted;
         uint256 lastExecutionTimestamp;
     }
 
     address[] public receivers;
     mapping(address => DcaRequest[]) public dcaRequests;
+    mapping(address => DcaRequest[]) public dcaRequestsCompleted;
 
     event Deposited(address indexed receiver, address token1Address, uint256 token1Amount, address token2Address, ISwapRouter02 router, uint256 swapExecutionPeriod, uint256 swapStartTime, uint256 numberOfSwaps);
     event Swapped(address indexed receiver, address token1Address, uint256 token1Amount, address token2Address, uint256 token2Amount);
     event Cancelled(address indexed receiver, uint256 index);
-    event Executed(address indexed receiver, uint256 index);
+    event Completed(address indexed receiver, uint256 index);
 
     // approve the contract to spend the token
     function submitDcaRequest(
@@ -42,17 +44,20 @@ contract DcaExecutor {
         receivers.push(msg.sender);
         dcaRequests[msg.sender].push(
             DcaRequest(
-                msg.sender,
-                token1,
-                token2,
-                token1Amount,
-                token1Amount,
-                0,
-                router,
-                swapExecutionPeriod,
-                startTimestamp,
-                numberOfSwaps,
-                0
+                {
+                    receiver: msg.sender,
+                    token1: token1,
+                    token2: token2,
+                    token1InitialAmount: token1Amount,
+                    token1CurrentAmount: token1Amount,
+                    token2CurrentAmount: 0,
+                    router: router,
+                    swapExecutionPeriod: swapExecutionPeriod,
+                    startTimestamp: startTimestamp,
+                    numberOfSwapsToExecute: numberOfSwaps,
+                    numberOfSwapsExecuted: 0,
+                    lastExecutionTimestamp: 0
+                }
             )
         );
         token1.approve(address(router), token1Amount);
@@ -62,10 +67,10 @@ contract DcaExecutor {
     function executeSwap(address receiver, uint256 index) external {
         DcaRequest memory request = dcaRequests[receiver][index];
         require(block.timestamp >= request.startTimestamp, "start date not reached");
-        require(request.numberOfSwaps > 0, "no more swaps");
+        require(request.numberOfSwapsToExecute > 0, "no more swaps");
         require(block.timestamp >= request.lastExecutionTimestamp + request.swapExecutionPeriod, "swap execution period not reached");
 
-        uint256 amountIn = request.token1CurrentAmount / request.numberOfSwaps;
+        uint256 amountIn = request.token1CurrentAmount / request.numberOfSwapsToExecute;
         IV3SwapRouter.ExactInputSingleParams memory params = IV3SwapRouter
             .ExactInputSingleParams({
                 tokenIn: address(request.token1),
@@ -78,27 +83,32 @@ contract DcaExecutor {
             });
 
         uint256 amountOut = request.router.exactInputSingle(params);
-        request.numberOfSwaps--;
+        request.numberOfSwapsToExecute--;
+        request.numberOfSwapsExecuted++;
         request.token1CurrentAmount -= amountIn;
         request.token2CurrentAmount += amountOut;
         request.lastExecutionTimestamp = block.timestamp;
         dcaRequests[receiver][index] = request;
+        emit Swapped(receiver, address(request.token1), amountIn, address(request.token2), amountOut);
 
-        if (request.numberOfSwaps == 0) {
-            cancelDcaRequest(receiver, index, true);
-            emit Executed(receiver, index);
+        if (request.numberOfSwapsToExecute == 0) {
+            _completeRequest(receiver, index);
+            emit Completed(receiver, dcaRequestsCompleted[receiver].length - 1);
         }
     }
 
-    function cancelDcaRequest(address receiver, uint256 index, bool fromExecutor) public {
+    function cancelDcaRequest(address receiver, uint256 index) external {
+        require(receiver == msg.sender, "not authorized");
+        _completeRequest(receiver, index);
+        emit Cancelled(receiver, dcaRequestsCompleted[receiver].length - 1);
+    }
+
+    function _completeRequest(address receiver, uint256 index) private {
         DcaRequest memory request = dcaRequests[receiver][index];
-        if (!fromExecutor) {
-            require(request.receiver == msg.sender, "not authorized");
-        }
-        require(request.token1.transfer(request.receiver, request.token1CurrentAmount), "transfer failed");
-        require(request.token2.transfer(request.receiver, request.token2CurrentAmount), "transfer failed");
+        require(request.token1.transfer(receiver, request.token1CurrentAmount), "transfer failed");
+        require(request.token2.transfer(receiver, request.token2CurrentAmount), "transfer failed");
+        dcaRequestsCompleted[receiver].push(request);
         dcaRequests[receiver][index] = dcaRequests[receiver][dcaRequests[receiver].length - 1];
         dcaRequests[receiver].pop();
-        emit Cancelled(receiver, index);
     }
 }
