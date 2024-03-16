@@ -33,6 +33,43 @@ interface OrderFormState {
   commitedFunds: number;
 }
 
+/* change fields in whatever way.
+ * so that they are compatible with
+ * our contract */
+interface Order {
+  id: string;
+  liquidityPool: string;
+  isBuyOperation: boolean;
+  token1InitialAmount: number;
+  token1Amount: number;
+  token2Amount: number;
+  numberOfIterationsLeft: number;
+  initialIterations: number;
+  frequency: number;
+}
+
+interface APIRATEONFIRE {
+  getLiquidityPoolMetadata: (addr: string) => Promise<LiquidityPool>;
+
+  // get all orders for address,
+  // would be pulled from our ETH history, not from our contract.
+  // As our contract cleans up orders which finished it's execution
+  getOrdersHistory: (addr: string) => Promise<Order[]>;
+
+  // get all active orders for address
+  getActiveOrders: (addr: string) => Promise<Order[]>;
+
+  // Submit DCA order to contract
+  submitOrder: (order: OrderFormState) => Promise<Order>;
+
+  // Call contract to cancel order
+  cancelOrder: (order: Order) => Promise<void>;
+
+  // This is our cron job to call executor in our contract
+  // Smart way would to have it on server, but that'll do for now
+  callExecuteOnContract: (receiverAddress: string, index: number) => Promise<void>;
+}
+
 const getDefaultOrderFormState = (liquidityPool: LiquidityPool): OrderFormState => ({
   liquidityPool,
   isBuyOperation: true,
@@ -160,7 +197,7 @@ const Home: NextPage = () => {
             <InputField label="Frequency (every)">
               <Select value={orderFormState.lens("frequency")}>
                 {Object.entries(times).map(([lbl, val], inx) => (
-                <option key={inx} value={val}>
+                  <option key={inx} value={val}>
                     {lbl}
                   </option>
                 ))}
