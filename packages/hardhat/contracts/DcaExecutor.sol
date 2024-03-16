@@ -27,12 +27,12 @@ contract DcaExecutor {
     mapping(address => uint256) public completedRequestsLength;
     mapping(address => DcaRequest[]) public dcaRequestsCompleted;
 
+
     event Deposited(address indexed receiver, address token1Address, uint256 token1Amount, address token2Address, ISwapRouter02 router, uint256 swapExecutionPeriod, uint256 swapStartTime, uint256 numberOfSwaps);
     event Swapped(address indexed receiver, address token1Address, uint256 token1Amount, address token2Address, uint256 token2Amount);
     event Cancelled(address indexed receiver, uint256 index);
     event Completed(address indexed receiver, uint256 index);
 
-    // approve the contract to spend the token
     function submitDcaRequest(
         IERC20 token1,
         IERC20 token2,
@@ -62,8 +62,10 @@ contract DcaExecutor {
                 }
             )
         );
-        activeRequestsLength[msg.sender] = dcaRequests[msg.sender].length;
         token1.approve(address(router), token1Amount);
+        // check if token1 is available for lending on a lending protocol of choice
+        // submit available amount of token1 to a lending protocol to earn interest
+        activeRequestsLength[msg.sender]++;
         emit Deposited(msg.sender, address(token1), token1Amount, address(token2), router, swapExecutionPeriod, startTimestamp, numberOfSwaps);
     }
 
@@ -74,6 +76,7 @@ contract DcaExecutor {
         require(block.timestamp >= request.lastExecutionTimestamp + request.swapExecutionPeriod, "swap execution period not reached");
 
         uint256 amountIn = request.token1CurrentAmount / request.numberOfSwapsToExecute;
+        // withdraw `amountIn` amount of token1 from lending protocol to perform swap
         IV3SwapRouter.ExactInputSingleParams memory params = IV3SwapRouter
             .ExactInputSingleParams({
                 tokenIn: address(request.token1),
@@ -86,6 +89,8 @@ contract DcaExecutor {
             });
 
         uint256 amountOut = request.router.exactInputSingle(params);
+        // check if token2 is available for lending on a lending protocol of choice
+        // deposit `amountOut` amount of token2 to lending protocol to earn interest
         request.numberOfSwapsToExecute--;
         request.numberOfSwapsExecuted++;
         request.token1CurrentAmount -= amountIn;
@@ -107,6 +112,7 @@ contract DcaExecutor {
     }
 
     function _completeRequest(address receiver, uint256 index) private {
+        // withdraw all token1 and token2 from lending protocol
         DcaRequest memory request = dcaRequests[receiver][index];
         require(request.token1.transfer(receiver, request.token1CurrentAmount), "transfer failed");
         require(request.token2.transfer(receiver, request.token2CurrentAmount), "transfer failed");
@@ -116,4 +122,6 @@ contract DcaExecutor {
         activeRequestsLength[receiver] = dcaRequests[receiver].length;
         completedRequestsLength[receiver] = dcaRequestsCompleted[receiver].length;
     }
+
+    // add function to withdraw earned interest to the user's wallet
 }
