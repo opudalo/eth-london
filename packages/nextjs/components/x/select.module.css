@@ -1,5 +1,4 @@
 .select {
-  margin-left: auto;
   -webkit-appearance: none;
   -moz-appearance: none;
   background: var(--bgColor);
@@ -16,6 +15,7 @@
   height: var(--_height);
   font-size: var(--_fontSize);
   border-radius: var(--_borderRadius);
+  text-align: center;
 }
 
 .select[disabled] {

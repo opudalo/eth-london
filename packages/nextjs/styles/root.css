@@ -1,3 +1,16 @@
+@font-face {
+  font-family: "Handjet";
+  src: local("Handjet"), url(../public/HandjetVFWeb-All.woff2) format("woff2 supports variations"),
+    url(../public/HandjetVFWeb-All.woff2) format("woff2-variations");
+  font-variation-settings: "ELGR" 1, "ELSH" 3.84, "wght" 300;
+}
+
+@font-face {
+  font-family: "Director";
+  src: local("Director"), url(../public/Director-Variable.ttf) format("woff2 supports variations"),
+    url(../public/Director-Variable.ttf) format("woff2-variations");
+}
+
 * {
   box-sizing: border-box;
 }
@@ -250,8 +263,9 @@ html {
   --borderRadius-m: 3px;
   --borderRadius-l: 4px;
 
-  --mainFont: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans,
-    Droid Sans, Helvetica Neue, sans-serif;
+  --tarsFont: "Handjet", sans-serif;
+  --mainFont: "Director", "IBM Plex Sans", -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu,
+    Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   --monoFont: "IBM Plex Mono", Menlo, Monaco, Consolas, "Courier New", monospace;
 
   max-width: 100%;
@@ -259,8 +273,8 @@ html {
 
   height: -webkit-fill-available;
 
-  color: var(--textColor);
-  background-color: var(--bgColor);
+  color: var(--textColor) !important;
+  background-color: var(--bgColor) !important;
   font-family: var(--mainFont);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

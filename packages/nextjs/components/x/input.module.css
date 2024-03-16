@@ -22,6 +22,8 @@
   border-radius: var(--_borderRadius);
   padding: var(--_padding);
   font-size: var(--_fontSize);
+
+  text-align: center;
 }
 
 .input:active,
@@ -79,6 +81,7 @@
 
 .customValue .input {
   color: transparent;
+  text-align: center;
 }
 
 .customValue::before {
@@ -90,12 +93,15 @@
   display: inline-flex;
   align-items: center;
   height: 100%;
-  padding: var(--_padding);
   font-size: var(--_fontSize);
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
 }
 
 .customValue.focused .input {
   color: var(--textColor);
+  text-align: center;
 }
 
 .customValue.focused::before {

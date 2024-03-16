@@ -1,11 +1,19 @@
+.wrap {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
 .orderForm {
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
+  align-items: center;
   justify-content: stretch;
   padding: 10px 20px;
 
-  width: 600px;
+  /* width: 1000px; */
 }
 
 .title {
@@ -37,4 +45,48 @@
   gap: 10px;
   text-transform: uppercase;
   margin-bottom: 20px;
+}
+
+.textOrder {
+  font-size: 24px;
+  --_height: var(--inputHeight-l);
+  line-height: var(--_height);
+}
+
+.inputResizer {
+  --_padding: 0 14px;
+  --_fontSize: var(--fontSize-l);
+  --_height: var(--inputHeight-l);
+  display: inline-block;
+  height: var(--_height);
+  padding: var(--_padding);
+  font-size: var(--_fontSize);
+  min-width: 60px;
+  position: relative;
+}
+
+.inputResizer > span:first-child {
+  color: transparent;
+  margin-right: 20px;
+  height: var(--_height);
+  display: inline-block;
+}
+.inputResizer > span:last-child {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+}
+
+.resizeableInput {
+  width: 100%;
+}
+
+.line {
+  padding: 10px 0px;
+  text-align: center;
+}
+
+.actionButton {
+  padding-top: 20px;
 }
