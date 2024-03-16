@@ -230,17 +230,23 @@ const Home: NextPage = () => {
   const [isMounted, setIsMounted] = useState(false);
   useEffect(() => setIsMounted(true), []);
 
+  if (!isMounted) return null;
+
+  return <XXX />;
+};
+
+const ContractSubmitter: React.FC<{ orderFormState: OrderFormState }> = ({ orderFormState }) => {
   const { data: deployedContractData, isLoading: deployedContractLoading } = useDeployedContractInfo("DcaExecutor");
   const { writeAsync: submitOrder } = useScaffoldContractWrite({
     contractName: "DcaExecutor",
     functionName: "submitDcaRequest",
     args: [
-      WETHTestToken.addr,
-      UniTestToken.addr,
-      BigInt(0.001 * 1e18),
+      orderFormState.operation === "buy" ? WETHTestToken.addr : UniTestToken.addr,
+      orderFormState.operation === "buy" ? UniTestToken.addr : WETHTestToken.addr,
+      BigInt(orderFormState.commitedFunds * 1e18),
       "0x3bFA4769FB09eefC5a80d6E87c3B9C650f7Ae48E",
-      BigInt(3),
-      BigInt((30 * 1000) / 1000),
+      BigInt(orderFormState.amount),
+      BigInt(orderFormState.frequency / 1000),
       BigInt(0),
     ],
   });
@@ -251,19 +257,25 @@ const Home: NextPage = () => {
         <span className="loading loading-spinner loading-lg"></span>
       </div>
     );
+  } else {
+    return (
+      <div>
+        <Button
+          size="large"
+          onClick={() => {
+            submitOrder();
+          }}
+        >
+          Submit order
+        </Button>
+      </div>
+    );
   }
-
-  if (!isMounted) return null;
-
-  (window as any).xxxx = submitOrder;
-  // submitOrder();
-
-  return <XXX />;
 };
-
 const XXX = () => {
   const tokenContractAddress = Atom.create<string>(UniTestToken.addr);
   const orderFormState = Atom.create<OrderFormState>(getDefaultOrderFormState(TestUniLiquidityPool));
+  const isSubmitted = Atom.create(false);
 
   return (
     <>
@@ -315,7 +327,6 @@ const XXX = () => {
                           type="number"
                           value={orderFormState.lens("commitedFunds")}
                           className={$.resizeableInput}
-                          customValueWhenBlurred={orderFormState.lens("commitedFunds").view(formatNum)}
                         />{" "}
                       </F.span>{" "}
                       WETH or my WETH balance is empty.
@@ -324,13 +335,12 @@ const XXX = () => {
                     <>
                       I sold{" "}
                       <F.span className={$.inputResizer}>
-                        <F.span className={$.ghostValue}>{orderFormState.lens("commitedFunds").view(formatNum)}</F.span>
+                        <F.span className={$.ghostValue}>{orderFormState.lens("commitedFunds").view(formatNum)}</F.span>{" "}
                         <Input
                           size="large"
                           type="number"
                           value={orderFormState.lens("commitedFunds")}
                           className={$.resizeableInput}
-                          customValueWhenBlurred={orderFormState.lens("commitedFunds").view(formatNum)}
                         />{" "}
                       </F.span>{" "}
                       UNI or my UNI balance is empty.
@@ -340,16 +350,25 @@ const XXX = () => {
               </F.div>
             </F.div>
             <div className={$.actionButton}>
-              <Button
-                size="large"
-                onClick={() => {
-                  console.log(orderFormState.get());
-
-                  submitOrder();
-                }}
-              >
-                Submit order
-              </Button>
+              <F.Fragment>
+                {isSubmitted.view(x =>
+                  x ? (
+                    <ContractSubmitter orderFormState={orderFormState.get()} />
+                  ) : (
+                    <Button
+                      size="large"
+                      onClick={() => {
+                        console.log(orderFormState.get());
+                        isSubmitted.set(true);
+                        // (window as any)
+                        // .xxxx();
+                      }}
+                    >
+                      Submit order
+                    </Button>
+                  ),
+                )}
+              </F.Fragment>
             </div>
             <br />
           </F.div>

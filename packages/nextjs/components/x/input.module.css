@@ -12,6 +12,7 @@
   border: none;
 
   -webkit-appearance: none;
+  -webkit-appearance: none;
   -moz-appearance: none;
 
   color: var(--textColor);
@@ -20,7 +21,7 @@
   height: var(--_height);
   border: 1px solid var(--borderColor);
   border-radius: var(--_borderRadius);
-  padding: var(--_padding);
+  /* padding: var(--_padding); */
   font-size: var(--_fontSize);
 
   text-align: center;
