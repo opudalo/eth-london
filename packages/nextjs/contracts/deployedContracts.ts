@@ -5,6 +5,868 @@
 import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 
 const deployedContracts = {
+  97: {
+    DcaExecutor: {
+      address: "0x77579Bb4061DA6478c9fC4c729cb00e42b87d5fb",
+      abi: [
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "receiver",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "index",
+              type: "uint256",
+            },
+          ],
+          name: "Cancelled",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "receiver",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "index",
+              type: "uint256",
+            },
+          ],
+          name: "Completed",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "receiver",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "address",
+              name: "token1Address",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "token1Amount",
+              type: "uint256",
+            },
+            {
+              indexed: false,
+              internalType: "address",
+              name: "token2Address",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "contract ISwapRouter02",
+              name: "router",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "swapExecutionPeriod",
+              type: "uint256",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "swapStartTime",
+              type: "uint256",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "numberOfSwaps",
+              type: "uint256",
+            },
+          ],
+          name: "Deposited",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "receiver",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "address",
+              name: "token1Address",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "token1Amount",
+              type: "uint256",
+            },
+            {
+              indexed: false,
+              internalType: "address",
+              name: "token2Address",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "token2Amount",
+              type: "uint256",
+            },
+          ],
+          name: "Swapped",
+          type: "event",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+          ],
+          name: "activeRequestsLength",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "receiver",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "index",
+              type: "uint256",
+            },
+          ],
+          name: "cancelDcaRequest",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+          ],
+          name: "completedRequestsLength",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          name: "dcaRequests",
+          outputs: [
+            {
+              internalType: "address",
+              name: "receiver",
+              type: "address",
+            },
+            {
+              internalType: "contract IERC20",
+              name: "token1",
+              type: "address",
+            },
+            {
+              internalType: "contract IERC20",
+              name: "token2",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "token1InitialAmount",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "token1CurrentAmount",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "token2CurrentAmount",
+              type: "uint256",
+            },
+            {
+              internalType: "contract ISwapRouter02",
+              name: "router",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "swapExecutionPeriod",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "startTimestamp",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "numberOfSwapsToExecute",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "numberOfSwapsExecuted",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "lastExecutionTimestamp",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          name: "dcaRequestsCompleted",
+          outputs: [
+            {
+              internalType: "address",
+              name: "receiver",
+              type: "address",
+            },
+            {
+              internalType: "contract IERC20",
+              name: "token1",
+              type: "address",
+            },
+            {
+              internalType: "contract IERC20",
+              name: "token2",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "token1InitialAmount",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "token1CurrentAmount",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "token2CurrentAmount",
+              type: "uint256",
+            },
+            {
+              internalType: "contract ISwapRouter02",
+              name: "router",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "swapExecutionPeriod",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "startTimestamp",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "numberOfSwapsToExecute",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "numberOfSwapsExecuted",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "lastExecutionTimestamp",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "receiver",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "index",
+              type: "uint256",
+            },
+          ],
+          name: "executeSwap",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          name: "receivers",
+          outputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "contract IERC20",
+              name: "token1",
+              type: "address",
+            },
+            {
+              internalType: "contract IERC20",
+              name: "token2",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "token1Amount",
+              type: "uint256",
+            },
+            {
+              internalType: "contract ISwapRouter02",
+              name: "router",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "numberOfSwaps",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "swapExecutionPeriod",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "startTimestamp",
+              type: "uint256",
+            },
+          ],
+          name: "submitDcaRequest",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+      ],
+      inheritedFunctions: {},
+    },
+    DcaExecutorV2: {
+      address: "0xFfC76E0F08c3431247e0B14228A3c3997254777c",
+      abi: [
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "receiver",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "index",
+              type: "uint256",
+            },
+          ],
+          name: "Cancelled",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "receiver",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "index",
+              type: "uint256",
+            },
+          ],
+          name: "Completed",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "receiver",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "address",
+              name: "token1Address",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "token1Amount",
+              type: "uint256",
+            },
+            {
+              indexed: false,
+              internalType: "address",
+              name: "token2Address",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "contract IUniswapV2Router02",
+              name: "router",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "swapExecutionPeriod",
+              type: "uint256",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "swapStartTime",
+              type: "uint256",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "numberOfSwaps",
+              type: "uint256",
+            },
+          ],
+          name: "Deposited",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "receiver",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "address",
+              name: "token1Address",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "token1Amount",
+              type: "uint256",
+            },
+            {
+              indexed: false,
+              internalType: "address",
+              name: "token2Address",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "token2Amount",
+              type: "uint256",
+            },
+          ],
+          name: "Swapped",
+          type: "event",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+          ],
+          name: "activeRequestsLength",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "receiver",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "index",
+              type: "uint256",
+            },
+          ],
+          name: "cancelDcaRequest",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+          ],
+          name: "completedRequestsLength",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          name: "dcaRequests",
+          outputs: [
+            {
+              internalType: "address",
+              name: "receiver",
+              type: "address",
+            },
+            {
+              internalType: "contract IERC20",
+              name: "token1",
+              type: "address",
+            },
+            {
+              internalType: "contract IERC20",
+              name: "token2",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "token1InitialAmount",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "token1CurrentAmount",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "token2CurrentAmount",
+              type: "uint256",
+            },
+            {
+              internalType: "contract IUniswapV2Router02",
+              name: "router",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "swapExecutionPeriod",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "startTimestamp",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "numberOfSwapsToExecute",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "numberOfSwapsExecuted",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "lastExecutionTimestamp",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          name: "dcaRequestsCompleted",
+          outputs: [
+            {
+              internalType: "address",
+              name: "receiver",
+              type: "address",
+            },
+            {
+              internalType: "contract IERC20",
+              name: "token1",
+              type: "address",
+            },
+            {
+              internalType: "contract IERC20",
+              name: "token2",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "token1InitialAmount",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "token1CurrentAmount",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "token2CurrentAmount",
+              type: "uint256",
+            },
+            {
+              internalType: "contract IUniswapV2Router02",
+              name: "router",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "swapExecutionPeriod",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "startTimestamp",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "numberOfSwapsToExecute",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "numberOfSwapsExecuted",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "lastExecutionTimestamp",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "receiver",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "index",
+              type: "uint256",
+            },
+          ],
+          name: "executeSwap",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          name: "receivers",
+          outputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "contract IERC20",
+              name: "token1",
+              type: "address",
+            },
+            {
+              internalType: "contract IERC20",
+              name: "token2",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "token1Amount",
+              type: "uint256",
+            },
+            {
+              internalType: "contract IUniswapV2Router02",
+              name: "router",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "numberOfSwaps",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "swapExecutionPeriod",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "startTimestamp",
+              type: "uint256",
+            },
+          ],
+          name: "submitDcaRequest",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+      ],
+      inheritedFunctions: {},
+    },
+  },
   31337: {
     DcaExecutor: {
       address: "0x5FbDB2315678afecb367f032d93F642f64180aa3",

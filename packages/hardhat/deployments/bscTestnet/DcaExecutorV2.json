@@ -1,0 +1,656 @@
+{
+  "address": "0xFfC76E0F08c3431247e0B14228A3c3997254777c",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "receiver",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "index",
+          "type": "uint256"
+        }
+      ],
+      "name": "Cancelled",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "receiver",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "index",
+          "type": "uint256"
+        }
+      ],
+      "name": "Completed",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "receiver",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "token1Address",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "token1Amount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "token2Address",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "contract IUniswapV2Router02",
+          "name": "router",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "swapExecutionPeriod",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "swapStartTime",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "numberOfSwaps",
+          "type": "uint256"
+        }
+      ],
+      "name": "Deposited",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "receiver",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "token1Address",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "token1Amount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "token2Address",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "token2Amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "Swapped",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "activeRequestsLength",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "receiver",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "index",
+          "type": "uint256"
+        }
+      ],
+      "name": "cancelDcaRequest",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "completedRequestsLength",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "dcaRequests",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "receiver",
+          "type": "address"
+        },
+        {
+          "internalType": "contract IERC20",
+          "name": "token1",
+          "type": "address"
+        },
+        {
+          "internalType": "contract IERC20",
+          "name": "token2",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "token1InitialAmount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "token1CurrentAmount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "token2CurrentAmount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "contract IUniswapV2Router02",
+          "name": "router",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "swapExecutionPeriod",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "startTimestamp",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "numberOfSwapsToExecute",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "numberOfSwapsExecuted",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "lastExecutionTimestamp",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "dcaRequestsCompleted",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "receiver",
+          "type": "address"
+        },
+        {
+          "internalType": "contract IERC20",
+          "name": "token1",
+          "type": "address"
+        },
+        {
+          "internalType": "contract IERC20",
+          "name": "token2",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "token1InitialAmount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "token1CurrentAmount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "token2CurrentAmount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "contract IUniswapV2Router02",
+          "name": "router",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "swapExecutionPeriod",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "startTimestamp",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "numberOfSwapsToExecute",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "numberOfSwapsExecuted",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "lastExecutionTimestamp",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "receiver",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "index",
+          "type": "uint256"
+        }
+      ],
+      "name": "executeSwap",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "receivers",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "contract IERC20",
+          "name": "token1",
+          "type": "address"
+        },
+        {
+          "internalType": "contract IERC20",
+          "name": "token2",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "token1Amount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "contract IUniswapV2Router02",
+          "name": "router",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "numberOfSwaps",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "swapExecutionPeriod",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "startTimestamp",
+          "type": "uint256"
+        }
+      ],
+      "name": "submitDcaRequest",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0x33ad081fb8b5b987c1dac5a79019efde9c1344161c41982a4b0a4c39172ebe41",
+  "receipt": {
+    "to": null,
+    "from": "0xE2eE625D83C68123aCa4251d6a82f23b70d9eEE3",
+    "contractAddress": "0xFfC76E0F08c3431247e0B14228A3c3997254777c",
+    "transactionIndex": 7,
+    "gasUsed": "1228782",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0x7cd6115469e5512202f80dbd3ba72233d59c71aef512cb7bf7d73e39d7dc5d22",
+    "transactionHash": "0x33ad081fb8b5b987c1dac5a79019efde9c1344161c41982a4b0a4c39172ebe41",
+    "logs": [],
+    "blockNumber": 38639605,
+    "cumulativeGasUsed": "1902461",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [],
+  "numDeployments": 1,
+  "solcInputHash": "2070b0ae5e30ecfb93ba14697c42bca4",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"receiver\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"index\",\"type\":\"uint256\"}],\"name\":\"Cancelled\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"receiver\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"index\",\"type\":\"uint256\"}],\"name\":\"Completed\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"receiver\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"token1Address\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"token1Amount\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"token2Address\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"contract IUniswapV2Router02\",\"name\":\"router\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"swapExecutionPeriod\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"swapStartTime\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"numberOfSwaps\",\"type\":\"uint256\"}],\"name\":\"Deposited\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"receiver\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"token1Address\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"token1Amount\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"token2Address\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"token2Amount\",\"type\":\"uint256\"}],\"name\":\"Swapped\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"activeRequestsLength\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"receiver\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"index\",\"type\":\"uint256\"}],\"name\":\"cancelDcaRequest\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"completedRequestsLength\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"dcaRequests\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"receiver\",\"type\":\"address\"},{\"internalType\":\"contract IERC20\",\"name\":\"token1\",\"type\":\"address\"},{\"internalType\":\"contract IERC20\",\"name\":\"token2\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"token1InitialAmount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"token1CurrentAmount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"token2CurrentAmount\",\"type\":\"uint256\"},{\"internalType\":\"contract IUniswapV2Router02\",\"name\":\"router\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"swapExecutionPeriod\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"startTimestamp\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"numberOfSwapsToExecute\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"numberOfSwapsExecuted\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"lastExecutionTimestamp\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"dcaRequestsCompleted\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"receiver\",\"type\":\"address\"},{\"internalType\":\"contract IERC20\",\"name\":\"token1\",\"type\":\"address\"},{\"internalType\":\"contract IERC20\",\"name\":\"token2\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"token1InitialAmount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"token1CurrentAmount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"token2CurrentAmount\",\"type\":\"uint256\"},{\"internalType\":\"contract IUniswapV2Router02\",\"name\":\"router\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"swapExecutionPeriod\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"startTimestamp\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"numberOfSwapsToExecute\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"numberOfSwapsExecuted\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"lastExecutionTimestamp\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"receiver\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"index\",\"type\":\"uint256\"}],\"name\":\"executeSwap\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"receivers\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"contract IERC20\",\"name\":\"token1\",\"type\":\"address\"},{\"internalType\":\"contract IERC20\",\"name\":\"token2\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"token1Amount\",\"type\":\"uint256\"},{\"internalType\":\"contract IUniswapV2Router02\",\"name\":\"router\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"numberOfSwaps\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"swapExecutionPeriod\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"startTimestamp\",\"type\":\"uint256\"}],\"name\":\"submitDcaRequest\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/DcaExecutorV2.sol\":\"DcaExecutorV2\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"@openzeppelin/contracts/token/ERC20/IERC20.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v4.9.0) (token/ERC20/IERC20.sol)\\n\\npragma solidity ^0.8.0;\\n\\n/**\\n * @dev Interface of the ERC20 standard as defined in the EIP.\\n */\\ninterface IERC20 {\\n    /**\\n     * @dev Emitted when `value` tokens are moved from one account (`from`) to\\n     * another (`to`).\\n     *\\n     * Note that `value` may be zero.\\n     */\\n    event Transfer(address indexed from, address indexed to, uint256 value);\\n\\n    /**\\n     * @dev Emitted when the allowance of a `spender` for an `owner` is set by\\n     * a call to {approve}. `value` is the new allowance.\\n     */\\n    event Approval(address indexed owner, address indexed spender, uint256 value);\\n\\n    /**\\n     * @dev Returns the amount of tokens in existence.\\n     */\\n    function totalSupply() external view returns (uint256);\\n\\n    /**\\n     * @dev Returns the amount of tokens owned by `account`.\\n     */\\n    function balanceOf(address account) external view returns (uint256);\\n\\n    /**\\n     * @dev Moves `amount` tokens from the caller's account to `to`.\\n     *\\n     * Returns a boolean value indicating whether the operation succeeded.\\n     *\\n     * Emits a {Transfer} event.\\n     */\\n    function transfer(address to, uint256 amount) external returns (bool);\\n\\n    /**\\n     * @dev Returns the remaining number of tokens that `spender` will be\\n     * allowed to spend on behalf of `owner` through {transferFrom}. This is\\n     * zero by default.\\n     *\\n     * This value changes when {approve} or {transferFrom} are called.\\n     */\\n    function allowance(address owner, address spender) external view returns (uint256);\\n\\n    /**\\n     * @dev Sets `amount` as the allowance of `spender` over the caller's tokens.\\n     *\\n     * Returns a boolean value indicating whether the operation succeeded.\\n     *\\n     * IMPORTANT: Beware that changing an allowance with this method brings the risk\\n     * that someone may use both the old and the new allowance by unfortunate\\n     * transaction ordering. One possible solution to mitigate this race\\n     * condition is to first reduce the spender's allowance to 0 and set the\\n     * desired value afterwards:\\n     * https://github.com/ethereum/EIPs/issues/20#issuecomment-263524729\\n     *\\n     * Emits an {Approval} event.\\n     */\\n    function approve(address spender, uint256 amount) external returns (bool);\\n\\n    /**\\n     * @dev Moves `amount` tokens from `from` to `to` using the\\n     * allowance mechanism. `amount` is then deducted from the caller's\\n     * allowance.\\n     *\\n     * Returns a boolean value indicating whether the operation succeeded.\\n     *\\n     * Emits a {Transfer} event.\\n     */\\n    function transferFrom(address from, address to, uint256 amount) external returns (bool);\\n}\\n\",\"keccak256\":\"0x287b55befed2961a7eabd7d7b1b2839cbca8a5b80ef8dcbb25ed3d4c2002c305\",\"license\":\"MIT\"},\"@uniswap/v2-periphery/contracts/interfaces/IUniswapV2Router01.sol\":{\"content\":\"pragma solidity >=0.6.2;\\n\\ninterface IUniswapV2Router01 {\\n    function factory() external pure returns (address);\\n    function WETH() external pure returns (address);\\n\\n    function addLiquidity(\\n        address tokenA,\\n        address tokenB,\\n        uint amountADesired,\\n        uint amountBDesired,\\n        uint amountAMin,\\n        uint amountBMin,\\n        address to,\\n        uint deadline\\n    ) external returns (uint amountA, uint amountB, uint liquidity);\\n    function addLiquidityETH(\\n        address token,\\n        uint amountTokenDesired,\\n        uint amountTokenMin,\\n        uint amountETHMin,\\n        address to,\\n        uint deadline\\n    ) external payable returns (uint amountToken, uint amountETH, uint liquidity);\\n    function removeLiquidity(\\n        address tokenA,\\n        address tokenB,\\n        uint liquidity,\\n        uint amountAMin,\\n        uint amountBMin,\\n        address to,\\n        uint deadline\\n    ) external returns (uint amountA, uint amountB);\\n    function removeLiquidityETH(\\n        address token,\\n        uint liquidity,\\n        uint amountTokenMin,\\n        uint amountETHMin,\\n        address to,\\n        uint deadline\\n    ) external returns (uint amountToken, uint amountETH);\\n    function removeLiquidityWithPermit(\\n        address tokenA,\\n        address tokenB,\\n        uint liquidity,\\n        uint amountAMin,\\n        uint amountBMin,\\n        address to,\\n        uint deadline,\\n        bool approveMax, uint8 v, bytes32 r, bytes32 s\\n    ) external returns (uint amountA, uint amountB);\\n    function removeLiquidityETHWithPermit(\\n        address token,\\n        uint liquidity,\\n        uint amountTokenMin,\\n        uint amountETHMin,\\n        address to,\\n        uint deadline,\\n        bool approveMax, uint8 v, bytes32 r, bytes32 s\\n    ) external returns (uint amountToken, uint amountETH);\\n    function swapExactTokensForTokens(\\n        uint amountIn,\\n        uint amountOutMin,\\n        address[] calldata path,\\n        address to,\\n        uint deadline\\n    ) external returns (uint[] memory amounts);\\n    function swapTokensForExactTokens(\\n        uint amountOut,\\n        uint amountInMax,\\n        address[] calldata path,\\n        address to,\\n        uint deadline\\n    ) external returns (uint[] memory amounts);\\n    function swapExactETHForTokens(uint amountOutMin, address[] calldata path, address to, uint deadline)\\n        external\\n        payable\\n        returns (uint[] memory amounts);\\n    function swapTokensForExactETH(uint amountOut, uint amountInMax, address[] calldata path, address to, uint deadline)\\n        external\\n        returns (uint[] memory amounts);\\n    function swapExactTokensForETH(uint amountIn, uint amountOutMin, address[] calldata path, address to, uint deadline)\\n        external\\n        returns (uint[] memory amounts);\\n    function swapETHForExactTokens(uint amountOut, address[] calldata path, address to, uint deadline)\\n        external\\n        payable\\n        returns (uint[] memory amounts);\\n\\n    function quote(uint amountA, uint reserveA, uint reserveB) external pure returns (uint amountB);\\n    function getAmountOut(uint amountIn, uint reserveIn, uint reserveOut) external pure returns (uint amountOut);\\n    function getAmountIn(uint amountOut, uint reserveIn, uint reserveOut) external pure returns (uint amountIn);\\n    function getAmountsOut(uint amountIn, address[] calldata path) external view returns (uint[] memory amounts);\\n    function getAmountsIn(uint amountOut, address[] calldata path) external view returns (uint[] memory amounts);\\n}\\n\",\"keccak256\":\"0x8a3c5c449d4b7cd76513ed6995f4b86e4a86f222c770f8442f5fc128ce29b4d2\"},\"@uniswap/v2-periphery/contracts/interfaces/IUniswapV2Router02.sol\":{\"content\":\"pragma solidity >=0.6.2;\\n\\nimport './IUniswapV2Router01.sol';\\n\\ninterface IUniswapV2Router02 is IUniswapV2Router01 {\\n    function removeLiquidityETHSupportingFeeOnTransferTokens(\\n        address token,\\n        uint liquidity,\\n        uint amountTokenMin,\\n        uint amountETHMin,\\n        address to,\\n        uint deadline\\n    ) external returns (uint amountETH);\\n    function removeLiquidityETHWithPermitSupportingFeeOnTransferTokens(\\n        address token,\\n        uint liquidity,\\n        uint amountTokenMin,\\n        uint amountETHMin,\\n        address to,\\n        uint deadline,\\n        bool approveMax, uint8 v, bytes32 r, bytes32 s\\n    ) external returns (uint amountETH);\\n\\n    function swapExactTokensForTokensSupportingFeeOnTransferTokens(\\n        uint amountIn,\\n        uint amountOutMin,\\n        address[] calldata path,\\n        address to,\\n        uint deadline\\n    ) external;\\n    function swapExactETHForTokensSupportingFeeOnTransferTokens(\\n        uint amountOutMin,\\n        address[] calldata path,\\n        address to,\\n        uint deadline\\n    ) external payable;\\n    function swapExactTokensForETHSupportingFeeOnTransferTokens(\\n        uint amountIn,\\n        uint amountOutMin,\\n        address[] calldata path,\\n        address to,\\n        uint deadline\\n    ) external;\\n}\\n\",\"keccak256\":\"0x744e30c133bd0f7ca9e7163433cf6d72f45c6bb1508c2c9c02f1a6db796ae59d\"},\"contracts/DcaExecutorV2.sol\":{\"content\":\"pragma solidity >=0.7.5;\\n\\nimport {IERC20} from \\\"@openzeppelin/contracts/token/ERC20/IERC20.sol\\\";\\nimport {IUniswapV2Router02} from \\\"@uniswap/v2-periphery/contracts/interfaces/IUniswapV2Router02.sol\\\";\\n\\ncontract DcaExecutorV2 {\\n    struct DcaRequest {\\n        address receiver;\\n        IERC20 token1;\\n        IERC20 token2;\\n        uint256 token1InitialAmount;\\n        uint256 token1CurrentAmount;\\n        uint256 token2CurrentAmount;\\n        IUniswapV2Router02 router;\\n        uint256 swapExecutionPeriod;\\n        uint256 startTimestamp;\\n        uint256 numberOfSwapsToExecute;\\n        uint256 numberOfSwapsExecuted;\\n        uint256 lastExecutionTimestamp;\\n    }\\n\\n    address[] public receivers;\\n    mapping(address => uint256) public activeRequestsLength;\\n    mapping(address => DcaRequest[]) public dcaRequests;\\n    mapping(address => uint256) public completedRequestsLength;\\n    mapping(address => DcaRequest[]) public dcaRequestsCompleted;\\n\\n    event Deposited(address indexed receiver, address token1Address, uint256 token1Amount, address token2Address, IUniswapV2Router02 router, uint256 swapExecutionPeriod, uint256 swapStartTime, uint256 numberOfSwaps);\\n    event Swapped(address indexed receiver, address token1Address, uint256 token1Amount, address token2Address, uint256 token2Amount);\\n    event Cancelled(address indexed receiver, uint256 index);\\n    event Completed(address indexed receiver, uint256 index);\\n\\n    // approve the contract to spend the token\\n    function submitDcaRequest(\\n        IERC20 token1,\\n        IERC20 token2,\\n        uint256 token1Amount,\\n        IUniswapV2Router02 router,\\n        uint256 numberOfSwaps,\\n        uint256 swapExecutionPeriod,\\n        uint256 startTimestamp\\n    ) external {\\n        require(token1.transferFrom(msg.sender, address(this), token1Amount), \\\"funding transfer failed\\\");\\n        receivers.push(msg.sender);\\n        dcaRequests[msg.sender].push(\\n            DcaRequest(\\n                {\\n                    receiver: msg.sender,\\n                    token1: token1,\\n                    token2: token2,\\n                    token1InitialAmount: token1Amount,\\n                    token1CurrentAmount: token1Amount,\\n                    token2CurrentAmount: 0,\\n                    router: router,\\n                    swapExecutionPeriod: swapExecutionPeriod,\\n                    startTimestamp: startTimestamp,\\n                    numberOfSwapsToExecute: numberOfSwaps,\\n                    numberOfSwapsExecuted: 0,\\n                    lastExecutionTimestamp: 0\\n                }\\n            )\\n        );\\n        activeRequestsLength[msg.sender] = dcaRequests[msg.sender].length;\\n        token1.approve(address(router), token1Amount);\\n        emit Deposited(msg.sender, address(token1), token1Amount, address(token2), router, swapExecutionPeriod, startTimestamp, numberOfSwaps);\\n    }\\n\\n    function executeSwap(address receiver, uint256 index) external {\\n        address[] memory path;\\n        DcaRequest memory request = dcaRequests[receiver][index];\\n        require(block.timestamp >= request.startTimestamp, \\\"start date not reached\\\");\\n        require(request.numberOfSwapsToExecute > 0, \\\"no more swaps\\\");\\n        require(block.timestamp >= request.lastExecutionTimestamp + request.swapExecutionPeriod, \\\"swap execution period not reached\\\");\\n\\n        uint256 amountIn = request.token1CurrentAmount / request.numberOfSwapsToExecute;\\n        path[0] = address(request.token1);\\n        path[1] = address(request.token2);\\n        uint256[] memory amounts = request.router.swapExactTokensForTokens({\\n                amountIn: amountIn,\\n                amountOutMin: 0,\\n                path: path,\\n                to: receiver,\\n                deadline: block.number + 10\\n            });\\n        request.numberOfSwapsToExecute--;\\n        request.numberOfSwapsExecuted++;\\n        request.token1CurrentAmount -= amountIn;\\n        request.token2CurrentAmount += amounts[1];\\n        request.lastExecutionTimestamp = block.timestamp;\\n        dcaRequests[receiver][index] = request;\\n        emit Swapped(receiver, address(request.token1), amountIn, address(request.token2), amounts[0]);\\n\\n        if (request.numberOfSwapsToExecute == 0) {\\n            _completeRequest(receiver, index);\\n            emit Completed(receiver, dcaRequestsCompleted[receiver].length - 1);\\n        }\\n    }\\n\\n    function cancelDcaRequest(address receiver, uint256 index) external {\\n        require(receiver == msg.sender, \\\"not authorized\\\");\\n        _completeRequest(receiver, index);\\n        emit Cancelled(receiver, dcaRequestsCompleted[receiver].length - 1);\\n    }\\n\\n    function _completeRequest(address receiver, uint256 index) private {\\n        DcaRequest memory request = dcaRequests[receiver][index];\\n        require(request.token1.transfer(receiver, request.token1CurrentAmount), \\\"transfer failed\\\");\\n        require(request.token2.transfer(receiver, request.token2CurrentAmount), \\\"transfer failed\\\");\\n        dcaRequestsCompleted[receiver].push(request);\\n        dcaRequests[receiver][index] = dcaRequests[receiver][dcaRequests[receiver].length - 1];\\n        dcaRequests[receiver].pop();\\n        activeRequestsLength[receiver] = dcaRequests[receiver].length;\\n        completedRequestsLength[receiver] = dcaRequestsCompleted[receiver].length;\\n    }\\n}\\n\",\"keccak256\":\"0xb3fe2c91e47c62b53cb260e5917a1a0c211c61cbee014f976485d6bfe34b0054\"}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b50611543806100206000396000f3fe608060405234801561001057600080fd5b50600436106100885760003560e01c8063a5f28cb51161005b578063a5f28cb514610108578063b160a94f14610192578063baac0a1a146101a5578063bfd772fc146101b857600080fd5b80630ec6eb731461008d578063519e1c1b146100c057806395c8d546146100d55780639df1d86e146100e8575b600080fd5b6100ad61009b36600461120f565b60016020526000908152604090205481565b6040519081526020015b60405180910390f35b6100d36100ce366004611233565b6101e3565b005b6100d36100e33660046112a1565b610610565b6100ad6100f636600461120f565b60036020526000908152604090205481565b61011b6101163660046112a1565b6106bf565b604080516001600160a01b039d8e1681529b8d1660208d0152998c16998b019990995260608a0197909752608089019590955260a0880193909352961660c086015260e0850195909552610100840194909452610120830193909352610140820192909252610160810191909152610180016100b7565b61011b6101a03660046112a1565b61074c565b6100d36101b33660046112a1565b610768565b6101cb6101c63660046112cd565b610cae565b6040516001600160a01b0390911681526020016100b7565b6040516323b872dd60e01b8152336004820152306024820152604481018690526001600160a01b038816906323b872dd906064016020604051808303816000875af1158015610236573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525081019061025a91906112e6565b6102ab5760405162461bcd60e51b815260206004820152601760248201527f66756e64696e67207472616e73666572206661696c656400000000000000000060448201526064015b60405180910390fd5b6000339080600181540180825580915050600190039060005260206000200160009091909190916101000a8154816001600160a01b0302191690836001600160a01b0316021790555060026000336001600160a01b03166001600160a01b03168152602001908152602001600020604051806101800160405280336001600160a01b03168152602001896001600160a01b03168152602001886001600160a01b0316815260200187815260200187815260200160008152602001866001600160a01b0316815260200184815260200183815260200185815260200160008152602001600081525090806001815401808255809150506001900390600052602060002090600c020160009091909190915060008201518160000160006101000a8154816001600160a01b0302191690836001600160a01b0316021790555060208201518160010160006101000a8154816001600160a01b0302191690836001600160a01b0316021790555060408201518160020160006101000a8154816001600160a01b0302191690836001600160a01b03160217905550606082015181600301556080820151816004015560a0820151816005015560c08201518160060160006101000a8154816001600160a01b0302191690836001600160a01b0316021790555060e082015181600701556101008201518160080155610120820151816009015561014082015181600a015561016082015181600b0155505060026000336001600160a01b03166001600160a01b031681526020019081526020016000208054905060016000336001600160a01b03166001600160a01b0316815260200190815260200160002081905550866001600160a01b031663095ea7b385876040518363ffffffff1660e01b81526004016105599291906001600160a01b03929092168252602082015260400190565b6020604051808303816000875af1158015610578573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525081019061059c91906112e6565b50604080516001600160a01b0389811682526020820188905288811682840152861660608201526080810184905260a0810183905260c08101859052905133917f42b2f4c840cfc7a2cdd5ee84638c3ad6dd6109741f9b26fbcbbb4e5e3bd4b4c0919081900360e00190a250505050505050565b6001600160a01b03821633146106595760405162461bcd60e51b815260206004820152600e60248201526d1b9bdd08185d5d1a1bdc9a5e995960921b60448201526064016102a2565b6106638282610cd8565b6001600160a01b0382166000818152600460205260409020547f36ea5cd5608625e789af0282eecdb4eae1cb7c1cf6d0ec3f9a84f35be850260b906106aa9060019061131e565b60405190815260200160405180910390a25050565b600460205281600052604060002081815481106106db57600080fd5b60009182526020909120600c9091020180546001820154600283015460038401546004850154600586015460068701546007880154600889015460098a0154600a8b0154600b909b01546001600160a01b039a8b169d50988a169b509689169995989497939692909416949093928c565b600260205281600052604060002081815481106106db57600080fd5b6001600160a01b0382166000908152600260205260408120805460609291908490811061079757610797611337565b60009182526020918290206040805161018081018252600c90930290910180546001600160a01b039081168452600182015481169484019490945260028101548416918301919091526003810154606083015260048101546080830152600581015460a0830152600681015490921660c0820152600782015460e0820152600882015461010082018190526009830154610120830152600a830154610140830152600b90920154610160820152915042101561088e5760405162461bcd60e51b81526020600482015260166024820152751cdd185c9d0819185d19481b9bdd081c995858da195960521b60448201526064016102a2565b6000816101200151116108d35760405162461bcd60e51b815260206004820152600d60248201526c6e6f206d6f726520737761707360981b60448201526064016102a2565b8060e001518161016001516108e8919061134d565b4210156109415760405162461bcd60e51b815260206004820152602160248201527f7377617020657865637574696f6e20706572696f64206e6f74207265616368656044820152601960fa1b60648201526084016102a2565b600081610120015182608001516109589190611360565b905081602001518360008151811061097257610972611337565b60200260200101906001600160a01b031690816001600160a01b0316815250508160400151836001815181106109aa576109aa611337565b6001600160a01b03928316602091820292909201015260c0830151600091166338ed17398383878a6109dd43600a61134d565b6040518663ffffffff1660e01b81526004016109fd959493929190611382565b6000604051808303816000875af1158015610a1c573d6000803e3d6000fd5b505050506040513d6000823e601f3d908101601f19168201604052610a449190810190611409565b61012084018051919250610a57826114c7565b9052506101408301805190610a6b826114de565b815250508183608001818151610a81919061131e565b905250805181906001908110610a9957610a99611337565b60200260200101518360a001818151610ab2919061134d565b905250426101608401526001600160a01b0386166000908152600260205260409020805484919087908110610ae957610ae9611337565b600091825260208083208451600c939093020180546001600160a01b03199081166001600160a01b039485161782558583015160018301805483169186169190911790556040808701516002840180548416918716919091179055606087015160038401556080870151600484015560a0870151600584015560c08701516006840180549093169086161790915560e0860151600783015561010086015160088301556101208601516009830155610140860151600a83015561016090950151600b90910155860151928601518451918a16937f692315744755ee6d80decaeb993d4b1bb95ff5db042cc47b32d5a7d858b019029390928792918791610bf157610bf1611337565b6020026020010151604051610c2e94939291906001600160a01b039485168152602081019390935292166040820152606081019190915260800190565b60405180910390a2826101200151600003610ca657610c4d8686610cd8565b6001600160a01b0386166000818152600460205260409020547fde2dead40a8c097b51964aec2a068ffa7dc41c6a98ff2c2b4a6e72957c32ac7690610c949060019061131e565b60405190815260200160405180910390a25b505050505050565b60008181548110610cbe57600080fd5b6000918252602090912001546001600160a01b0316905081565b6001600160a01b0382166000908152600260205260408120805483908110610d0257610d02611337565b60009182526020918290206040805161018081018252600c9390930290910180546001600160a01b0390811684526001820154811694840185905260028201548116848401526003820154606085015260048083015460808601819052600584015460a08701526006840154831660c0870152600784015460e087015260088401546101008701526009840154610120870152600a840154610140870152600b90930154610160860152925163a9059cbb60e01b815290881692810192909252602482015290925063a9059cbb906044016020604051808303816000875af1158015610df2573d6000803e3d6000fd5b505050506040513d601f19601f82011682018060405250810190610e1691906112e6565b610e545760405162461bcd60e51b815260206004820152600f60248201526e1d1c985b9cd9995c8819985a5b1959608a1b60448201526064016102a2565b60408082015160a0830151915163a9059cbb60e01b81526001600160a01b038681166004830152602482019390935291169063a9059cbb906044016020604051808303816000875af1158015610eae573d6000803e3d6000fd5b505050506040513d601f19601f82011682018060405250810190610ed291906112e6565b610f105760405162461bcd60e51b815260206004820152600f60248201526e1d1c985b9cd9995c8819985a5b1959608a1b60448201526064016102a2565b6001600160a01b0383811660008181526004602081815260408084208054600180820183559186528386208951600c9092020180546001600160a01b0319908116928a169290921781558985015181840180548416918b1691909117905589840151600280830180548516928c169290921790915560608b0151600383015560808b01519682019690965560a08a0151600582015560c08a0151600682018054909316991698909817905560e0880151600788015561010088015160088801556101208801516009880155610140880151600a880155610160880151600b909701969096559383525220805490916110079161131e565b8154811061101757611017611337565b90600052602060002090600c020160026000856001600160a01b03166001600160a01b03168152602001908152602001600020838154811061105b5761105b611337565b600091825260208083208454600c9093020180546001600160a01b03199081166001600160a01b039485161782556001808701549083018054831691861691909117905560028087015481840180548416918716919091179055600380880154908401556004808801549084015560058088015490840155600680880154908401805490931690861617909155600780870154908301556008808701549083015560098087015490830155600a8087015490830155600b9586015495909101949094559086168252919091526040902080548061113a5761113a6114f7565b60008281526020808220600c6000199094019384020180546001600160a01b03199081168255600182810180548316905560028084018054841690556003808501879055600480860188905560058601889055600686018054909516909455600785018790556008850187905560098501879055600a8501879055600b909401869055959096556001600160a01b039890981683529281526040808320549482528083209490945595865282812054919095529320929092555050565b6001600160a01b038116811461120c57600080fd5b50565b60006020828403121561122157600080fd5b813561122c816111f7565b9392505050565b600080600080600080600060e0888a03121561124e57600080fd5b8735611259816111f7565b96506020880135611269816111f7565b9550604088013594506060880135611280816111f7565b9699959850939660808101359560a0820135955060c0909101359350915050565b600080604083850312156112b457600080fd5b82356112bf816111f7565b946020939093013593505050565b6000602082840312156112df57600080fd5b5035919050565b6000602082840312156112f857600080fd5b8151801515811461122c57600080fd5b634e487b7160e01b600052601160045260246000fd5b8181038181111561133157611331611308565b92915050565b634e487b7160e01b600052603260045260246000fd5b8082018082111561133157611331611308565b60008261137d57634e487b7160e01b600052601260045260246000fd5b500490565b600060a082018783526020878185015260a0604085015281875180845260c086019150828901935060005b818110156113d25784516001600160a01b0316835293830193918301916001016113ad565b50506001600160a01b03969096166060850152505050608001529392505050565b634e487b7160e01b600052604160045260246000fd5b6000602080838503121561141c57600080fd5b825167ffffffffffffffff8082111561143457600080fd5b818501915085601f83011261144857600080fd5b81518181111561145a5761145a6113f3565b8060051b604051601f19603f8301168101818110858211171561147f5761147f6113f3565b60405291825284820192508381018501918883111561149d57600080fd5b938501935b828510156114bb578451845293850193928501926114a2565b98975050505050505050565b6000816114d6576114d6611308565b506000190190565b6000600182016114f0576114f0611308565b5060010190565b634e487b7160e01b600052603160045260246000fdfea2646970667358221220ae9f55bfac7e832f47be928d80ac74a01d0611db356fedb3c8ddff369b9b191064736f6c63430008110033",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100885760003560e01c8063a5f28cb51161005b578063a5f28cb514610108578063b160a94f14610192578063baac0a1a146101a5578063bfd772fc146101b857600080fd5b80630ec6eb731461008d578063519e1c1b146100c057806395c8d546146100d55780639df1d86e146100e8575b600080fd5b6100ad61009b36600461120f565b60016020526000908152604090205481565b6040519081526020015b60405180910390f35b6100d36100ce366004611233565b6101e3565b005b6100d36100e33660046112a1565b610610565b6100ad6100f636600461120f565b60036020526000908152604090205481565b61011b6101163660046112a1565b6106bf565b604080516001600160a01b039d8e1681529b8d1660208d0152998c16998b019990995260608a0197909752608089019590955260a0880193909352961660c086015260e0850195909552610100840194909452610120830193909352610140820192909252610160810191909152610180016100b7565b61011b6101a03660046112a1565b61074c565b6100d36101b33660046112a1565b610768565b6101cb6101c63660046112cd565b610cae565b6040516001600160a01b0390911681526020016100b7565b6040516323b872dd60e01b8152336004820152306024820152604481018690526001600160a01b038816906323b872dd906064016020604051808303816000875af1158015610236573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525081019061025a91906112e6565b6102ab5760405162461bcd60e51b815260206004820152601760248201527f66756e64696e67207472616e73666572206661696c656400000000000000000060448201526064015b60405180910390fd5b6000339080600181540180825580915050600190039060005260206000200160009091909190916101000a8154816001600160a01b0302191690836001600160a01b0316021790555060026000336001600160a01b03166001600160a01b03168152602001908152602001600020604051806101800160405280336001600160a01b03168152602001896001600160a01b03168152602001886001600160a01b0316815260200187815260200187815260200160008152602001866001600160a01b0316815260200184815260200183815260200185815260200160008152602001600081525090806001815401808255809150506001900390600052602060002090600c020160009091909190915060008201518160000160006101000a8154816001600160a01b0302191690836001600160a01b0316021790555060208201518160010160006101000a8154816001600160a01b0302191690836001600160a01b0316021790555060408201518160020160006101000a8154816001600160a01b0302191690836001600160a01b03160217905550606082015181600301556080820151816004015560a0820151816005015560c08201518160060160006101000a8154816001600160a01b0302191690836001600160a01b0316021790555060e082015181600701556101008201518160080155610120820151816009015561014082015181600a015561016082015181600b0155505060026000336001600160a01b03166001600160a01b031681526020019081526020016000208054905060016000336001600160a01b03166001600160a01b0316815260200190815260200160002081905550866001600160a01b031663095ea7b385876040518363ffffffff1660e01b81526004016105599291906001600160a01b03929092168252602082015260400190565b6020604051808303816000875af1158015610578573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525081019061059c91906112e6565b50604080516001600160a01b0389811682526020820188905288811682840152861660608201526080810184905260a0810183905260c08101859052905133917f42b2f4c840cfc7a2cdd5ee84638c3ad6dd6109741f9b26fbcbbb4e5e3bd4b4c0919081900360e00190a250505050505050565b6001600160a01b03821633146106595760405162461bcd60e51b815260206004820152600e60248201526d1b9bdd08185d5d1a1bdc9a5e995960921b60448201526064016102a2565b6106638282610cd8565b6001600160a01b0382166000818152600460205260409020547f36ea5cd5608625e789af0282eecdb4eae1cb7c1cf6d0ec3f9a84f35be850260b906106aa9060019061131e565b60405190815260200160405180910390a25050565b600460205281600052604060002081815481106106db57600080fd5b60009182526020909120600c9091020180546001820154600283015460038401546004850154600586015460068701546007880154600889015460098a0154600a8b0154600b909b01546001600160a01b039a8b169d50988a169b509689169995989497939692909416949093928c565b600260205281600052604060002081815481106106db57600080fd5b6001600160a01b0382166000908152600260205260408120805460609291908490811061079757610797611337565b60009182526020918290206040805161018081018252600c90930290910180546001600160a01b039081168452600182015481169484019490945260028101548416918301919091526003810154606083015260048101546080830152600581015460a0830152600681015490921660c0820152600782015460e0820152600882015461010082018190526009830154610120830152600a830154610140830152600b90920154610160820152915042101561088e5760405162461bcd60e51b81526020600482015260166024820152751cdd185c9d0819185d19481b9bdd081c995858da195960521b60448201526064016102a2565b6000816101200151116108d35760405162461bcd60e51b815260206004820152600d60248201526c6e6f206d6f726520737761707360981b60448201526064016102a2565b8060e001518161016001516108e8919061134d565b4210156109415760405162461bcd60e51b815260206004820152602160248201527f7377617020657865637574696f6e20706572696f64206e6f74207265616368656044820152601960fa1b60648201526084016102a2565b600081610120015182608001516109589190611360565b905081602001518360008151811061097257610972611337565b60200260200101906001600160a01b031690816001600160a01b0316815250508160400151836001815181106109aa576109aa611337565b6001600160a01b03928316602091820292909201015260c0830151600091166338ed17398383878a6109dd43600a61134d565b6040518663ffffffff1660e01b81526004016109fd959493929190611382565b6000604051808303816000875af1158015610a1c573d6000803e3d6000fd5b505050506040513d6000823e601f3d908101601f19168201604052610a449190810190611409565b61012084018051919250610a57826114c7565b9052506101408301805190610a6b826114de565b815250508183608001818151610a81919061131e565b905250805181906001908110610a9957610a99611337565b60200260200101518360a001818151610ab2919061134d565b905250426101608401526001600160a01b0386166000908152600260205260409020805484919087908110610ae957610ae9611337565b600091825260208083208451600c939093020180546001600160a01b03199081166001600160a01b039485161782558583015160018301805483169186169190911790556040808701516002840180548416918716919091179055606087015160038401556080870151600484015560a0870151600584015560c08701516006840180549093169086161790915560e0860151600783015561010086015160088301556101208601516009830155610140860151600a83015561016090950151600b90910155860151928601518451918a16937f692315744755ee6d80decaeb993d4b1bb95ff5db042cc47b32d5a7d858b019029390928792918791610bf157610bf1611337565b6020026020010151604051610c2e94939291906001600160a01b039485168152602081019390935292166040820152606081019190915260800190565b60405180910390a2826101200151600003610ca657610c4d8686610cd8565b6001600160a01b0386166000818152600460205260409020547fde2dead40a8c097b51964aec2a068ffa7dc41c6a98ff2c2b4a6e72957c32ac7690610c949060019061131e565b60405190815260200160405180910390a25b505050505050565b60008181548110610cbe57600080fd5b6000918252602090912001546001600160a01b0316905081565b6001600160a01b0382166000908152600260205260408120805483908110610d0257610d02611337565b60009182526020918290206040805161018081018252600c9390930290910180546001600160a01b0390811684526001820154811694840185905260028201548116848401526003820154606085015260048083015460808601819052600584015460a08701526006840154831660c0870152600784015460e087015260088401546101008701526009840154610120870152600a840154610140870152600b90930154610160860152925163a9059cbb60e01b815290881692810192909252602482015290925063a9059cbb906044016020604051808303816000875af1158015610df2573d6000803e3d6000fd5b505050506040513d601f19601f82011682018060405250810190610e1691906112e6565b610e545760405162461bcd60e51b815260206004820152600f60248201526e1d1c985b9cd9995c8819985a5b1959608a1b60448201526064016102a2565b60408082015160a0830151915163a9059cbb60e01b81526001600160a01b038681166004830152602482019390935291169063a9059cbb906044016020604051808303816000875af1158015610eae573d6000803e3d6000fd5b505050506040513d601f19601f82011682018060405250810190610ed291906112e6565b610f105760405162461bcd60e51b815260206004820152600f60248201526e1d1c985b9cd9995c8819985a5b1959608a1b60448201526064016102a2565b6001600160a01b0383811660008181526004602081815260408084208054600180820183559186528386208951600c9092020180546001600160a01b0319908116928a169290921781558985015181840180548416918b1691909117905589840151600280830180548516928c169290921790915560608b0151600383015560808b01519682019690965560a08a0151600582015560c08a0151600682018054909316991698909817905560e0880151600788015561010088015160088801556101208801516009880155610140880151600a880155610160880151600b909701969096559383525220805490916110079161131e565b8154811061101757611017611337565b90600052602060002090600c020160026000856001600160a01b03166001600160a01b03168152602001908152602001600020838154811061105b5761105b611337565b600091825260208083208454600c9093020180546001600160a01b03199081166001600160a01b039485161782556001808701549083018054831691861691909117905560028087015481840180548416918716919091179055600380880154908401556004808801549084015560058088015490840155600680880154908401805490931690861617909155600780870154908301556008808701549083015560098087015490830155600a8087015490830155600b9586015495909101949094559086168252919091526040902080548061113a5761113a6114f7565b60008281526020808220600c6000199094019384020180546001600160a01b03199081168255600182810180548316905560028084018054841690556003808501879055600480860188905560058601889055600686018054909516909455600785018790556008850187905560098501879055600a8501879055600b909401869055959096556001600160a01b039890981683529281526040808320549482528083209490945595865282812054919095529320929092555050565b6001600160a01b038116811461120c57600080fd5b50565b60006020828403121561122157600080fd5b813561122c816111f7565b9392505050565b600080600080600080600060e0888a03121561124e57600080fd5b8735611259816111f7565b96506020880135611269816111f7565b9550604088013594506060880135611280816111f7565b9699959850939660808101359560a0820135955060c0909101359350915050565b600080604083850312156112b457600080fd5b82356112bf816111f7565b946020939093013593505050565b6000602082840312156112df57600080fd5b5035919050565b6000602082840312156112f857600080fd5b8151801515811461122c57600080fd5b634e487b7160e01b600052601160045260246000fd5b8181038181111561133157611331611308565b92915050565b634e487b7160e01b600052603260045260246000fd5b8082018082111561133157611331611308565b60008261137d57634e487b7160e01b600052601260045260246000fd5b500490565b600060a082018783526020878185015260a0604085015281875180845260c086019150828901935060005b818110156113d25784516001600160a01b0316835293830193918301916001016113ad565b50506001600160a01b03969096166060850152505050608001529392505050565b634e487b7160e01b600052604160045260246000fd5b6000602080838503121561141c57600080fd5b825167ffffffffffffffff8082111561143457600080fd5b818501915085601f83011261144857600080fd5b81518181111561145a5761145a6113f3565b8060051b604051601f19603f8301168101818110858211171561147f5761147f6113f3565b60405291825284820192508381018501918883111561149d57600080fd5b938501935b828510156114bb578451845293850193928501926114a2565b98975050505050505050565b6000816114d6576114d6611308565b506000190190565b6000600182016114f0576114f0611308565b5060010190565b634e487b7160e01b600052603160045260246000fdfea2646970667358221220ae9f55bfac7e832f47be928d80ac74a01d0611db356fedb3c8ddff369b9b191064736f6c63430008110033",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 510,
+        "contract": "contracts/DcaExecutorV2.sol:DcaExecutorV2",
+        "label": "receivers",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_array(t_address)dyn_storage"
+      },
+      {
+        "astId": 514,
+        "contract": "contracts/DcaExecutorV2.sol:DcaExecutorV2",
+        "label": "activeRequestsLength",
+        "offset": 0,
+        "slot": "1",
+        "type": "t_mapping(t_address,t_uint256)"
+      },
+      {
+        "astId": 520,
+        "contract": "contracts/DcaExecutorV2.sol:DcaExecutorV2",
+        "label": "dcaRequests",
+        "offset": 0,
+        "slot": "2",
+        "type": "t_mapping(t_address,t_array(t_struct(DcaRequest)507_storage)dyn_storage)"
+      },
+      {
+        "astId": 524,
+        "contract": "contracts/DcaExecutorV2.sol:DcaExecutorV2",
+        "label": "completedRequestsLength",
+        "offset": 0,
+        "slot": "3",
+        "type": "t_mapping(t_address,t_uint256)"
+      },
+      {
+        "astId": 530,
+        "contract": "contracts/DcaExecutorV2.sol:DcaExecutorV2",
+        "label": "dcaRequestsCompleted",
+        "offset": 0,
+        "slot": "4",
+        "type": "t_mapping(t_address,t_array(t_struct(DcaRequest)507_storage)dyn_storage)"
+      }
+    ],
+    "types": {
+      "t_address": {
+        "encoding": "inplace",
+        "label": "address",
+        "numberOfBytes": "20"
+      },
+      "t_array(t_address)dyn_storage": {
+        "base": "t_address",
+        "encoding": "dynamic_array",
+        "label": "address[]",
+        "numberOfBytes": "32"
+      },
+      "t_array(t_struct(DcaRequest)507_storage)dyn_storage": {
+        "base": "t_struct(DcaRequest)507_storage",
+        "encoding": "dynamic_array",
+        "label": "struct DcaExecutorV2.DcaRequest[]",
+        "numberOfBytes": "32"
+      },
+      "t_contract(IERC20)77": {
+        "encoding": "inplace",
+        "label": "contract IERC20",
+        "numberOfBytes": "20"
+      },
+      "t_contract(IUniswapV2Router02)473": {
+        "encoding": "inplace",
+        "label": "contract IUniswapV2Router02",
+        "numberOfBytes": "20"
+      },
+      "t_mapping(t_address,t_array(t_struct(DcaRequest)507_storage)dyn_storage)": {
+        "encoding": "mapping",
+        "key": "t_address",
+        "label": "mapping(address => struct DcaExecutorV2.DcaRequest[])",
+        "numberOfBytes": "32",
+        "value": "t_array(t_struct(DcaRequest)507_storage)dyn_storage"
+      },
+      "t_mapping(t_address,t_uint256)": {
+        "encoding": "mapping",
+        "key": "t_address",
+        "label": "mapping(address => uint256)",
+        "numberOfBytes": "32",
+        "value": "t_uint256"
+      },
+      "t_struct(DcaRequest)507_storage": {
+        "encoding": "inplace",
+        "label": "struct DcaExecutorV2.DcaRequest",
+        "members": [
+          {
+            "astId": 481,
+            "contract": "contracts/DcaExecutorV2.sol:DcaExecutorV2",
+            "label": "receiver",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_address"
+          },
+          {
+            "astId": 484,
+            "contract": "contracts/DcaExecutorV2.sol:DcaExecutorV2",
+            "label": "token1",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_contract(IERC20)77"
+          },
+          {
+            "astId": 487,
+            "contract": "contracts/DcaExecutorV2.sol:DcaExecutorV2",
+            "label": "token2",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_contract(IERC20)77"
+          },
+          {
+            "astId": 489,
+            "contract": "contracts/DcaExecutorV2.sol:DcaExecutorV2",
+            "label": "token1InitialAmount",
+            "offset": 0,
+            "slot": "3",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 491,
+            "contract": "contracts/DcaExecutorV2.sol:DcaExecutorV2",
+            "label": "token1CurrentAmount",
+            "offset": 0,
+            "slot": "4",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 493,
+            "contract": "contracts/DcaExecutorV2.sol:DcaExecutorV2",
+            "label": "token2CurrentAmount",
+            "offset": 0,
+            "slot": "5",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 496,
+            "contract": "contracts/DcaExecutorV2.sol:DcaExecutorV2",
+            "label": "router",
+            "offset": 0,
+            "slot": "6",
+            "type": "t_contract(IUniswapV2Router02)473"
+          },
+          {
+            "astId": 498,
+            "contract": "contracts/DcaExecutorV2.sol:DcaExecutorV2",
+            "label": "swapExecutionPeriod",
+            "offset": 0,
+            "slot": "7",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 500,
+            "contract": "contracts/DcaExecutorV2.sol:DcaExecutorV2",
+            "label": "startTimestamp",
+            "offset": 0,
+            "slot": "8",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 502,
+            "contract": "contracts/DcaExecutorV2.sol:DcaExecutorV2",
+            "label": "numberOfSwapsToExecute",
+            "offset": 0,
+            "slot": "9",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 504,
+            "contract": "contracts/DcaExecutorV2.sol:DcaExecutorV2",
+            "label": "numberOfSwapsExecuted",
+            "offset": 0,
+            "slot": "10",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 506,
+            "contract": "contracts/DcaExecutorV2.sol:DcaExecutorV2",
+            "label": "lastExecutionTimestamp",
+            "offset": 0,
+            "slot": "11",
+            "type": "t_uint256"
+          }
+        ],
+        "numberOfBytes": "384"
+      },
+      "t_uint256": {
+        "encoding": "inplace",
+        "label": "uint256",
+        "numberOfBytes": "32"
+      }
+    }
+  }
+}
