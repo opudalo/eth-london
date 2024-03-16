@@ -1,0 +1,307 @@
+* {
+  box-sizing: border-box;
+}
+
+::-webkit-scrollbar-corner {
+  display: none;
+}
+
+[data-theme="darkTheme"],
+[data-theme="darkLegacyDomTheme"],
+[data-theme="darkerDarkTheme"] {
+  --textColor: #fff;
+  --scrollColor: #868686;
+  --highlightColor: #5252ff;
+  --textColorDimmed: #b4b4b4;
+  --textColorVeryDimmed: #868686;
+  --textColorSuperDimmed: #424242;
+  --borderColor: #414141;
+}
+
+[data-theme="darkTheme"] {
+  --bgColor: #0c0c2b;
+  --bgColorDimmed: #0c0c2be3;
+  --bgColorVeryDimmed: #0c0c2b77;
+}
+
+[data-theme="darkerDarkTheme"] {
+  --bgColor: #0c0c0e;
+  --bgColorDimmed: #0c0c0ee3;
+  --bgColorVeryDimmed: #0c0c0e77;
+}
+
+[data-theme="darkLegacyDomTheme"] {
+  --bgColor: #00262f;
+  --bgColorDimmed: #00262fe3;
+  --bgColorVeryDimmed: #00262f77;
+}
+
+[data-theme="lightLegacyDomTheme"],
+[data-theme="darkLegacyDomTheme"] {
+  --redColor: #c6433b;
+  --redColor2: #ff6a00;
+  --greenColor: #3578af;
+  --greenColor2: #00d0ff;
+}
+
+[data-theme="lightHsakaTheme"],
+[data-theme="darkHsakaTheme"] {
+  --redColor: #0400f8;
+  --redColor2: #00a1f8;
+  --greenColor: #969696;
+  --greenColor2: #606060;
+  --colorizedRedText: #fff;
+  --colorizedGreenText: #fff;
+}
+
+/* [data-theme='betaTheme'] {
+  --redColor: #d126d4;
+  --redColor2: #c39f42;
+  --greenColor: #76d1aa;
+  --greenColor2: #2b58f8;
+} */
+
+[data-theme="lightHsakaTheme"] {
+  --bgColor: #faf6ec;
+  --bgColorDimmed: #faf6ecbb;
+  --bgColorVeryDimmed: #faf6eca2;
+
+  --textColor: #11100e;
+  --textColorDimmed: #11100ee3;
+  --textColorVeryDimmed: #11100e77;
+  --textColorSuperDimmed: #11100e3a;
+  --highlightColor: rgba(225, 225, 225, 0.89);
+}
+
+[data-theme="darkHsakaTheme"] {
+  --textColor: #faf6ec;
+  --textColorDimmed: #faf6ecbb;
+  --textColorVeryDimmed: #faf6eca2;
+  --textColorSuperDimmed: #faf6ec38;
+
+  --borderColor: #414141;
+  --bgColor: #11100e;
+  --bgColorDimmed: #11100ee3;
+  --bgColorVeryDimmed: #11100e77;
+  --highlightColor: rgba(30, 30, 30, 0.89);
+}
+
+[data-theme="darkVaporwaveTheme"] {
+  --redColor: #f806bc;
+  --redColor2: #bc06f8;
+  --greenColor: #1c77ff;
+  --greenColor2: #1ccaff;
+  --colorizedRedText: #d3f8ff;
+  --colorizedGreenText: #d3f8ff;
+
+  --textColor: #d3f8ff;
+  --textColorDimmed: #d3f8ffbb;
+  --textColorVeryDimmed: #d3f8ffa2;
+  --textColorSuperDimmed: #d3f8ff69;
+  --bgColor: #13042c;
+  --bgColorDimmed: #13042ce3;
+  --bgColorVeryDimmed: #13042c77;
+  --borderColor: #494949;
+  --highlightColor: rgba(13, 3, 31, 0.89);
+}
+
+[data-theme="darkTerminalTheme"] {
+  --redColor: #f00;
+  --redColor2: #ff6363;
+  --greenColor: #0f0;
+  --greenColor2: #11af00;
+  --colorizedRedText: #00ff00;
+  --colorizedGreenText: #000;
+
+  --textColor: #00ff00;
+  --textColorDimmed: #00ff00bb;
+  --textColorVeryDimmed: #00ff00a2;
+  --textColorSuperDimmed: #00ff0063;
+  --bgColor: #000;
+
+  --bgColorDimmed: #000;
+  --bgColorVeryDimmed: #000;
+  --borderColor: #006900;
+
+  --mainColor: #0f0;
+  --mainContrast: #f00;
+  --highlightColor: rgba(26, 255, 0, 0.3);
+}
+
+[data-theme="darkBubblegumTheme"] {
+  --redColor: #ffc0cb;
+  --redColor2: #ff5173;
+  --greenColor: #cbf8b0;
+  --greenColor2: #85fa40;
+  --colorizedRedText: #222429;
+  --colorizedGreenText: #222429;
+
+  --textColor: #e3e3e3;
+  --textColorDimmed: #e3e3e3bb;
+  --textColorVeryDimmed: #e3e3e3a2;
+  --textColorSuperDimmed: #e3e3e359;
+
+  --bgColor: #222429;
+  --bgColorDimmed: #222429ef;
+  --bgColorVeryDimmed: #222429ea;
+  --borderColor: #525252;
+  --highlightColor: rgba(30, 30, 30, 0.89);
+}
+
+[data-theme="lightMonochromeTheme"],
+[data-theme="darkMonochromeTheme"] {
+  --redColor: #fff;
+  --redColor2: #c0c0c0;
+  --greenColor: #000;
+  --greenColor2: #2c2c2c;
+  --colorizedRedText: #000;
+  --colorizedGreenText: #fff;
+
+  --mainColor: #fff;
+  --mainContrast: #000;
+}
+
+[data-theme="lightMonochromeTheme"] {
+  --bgColor: #bbbbbb;
+  --bgColorDimmed: #bbbbbbbb;
+  --bgColorVeryDimmed: #bbbbbba2;
+
+  --textColor: #171717;
+  --textColorDimmed: #171717e3;
+  --textColorVeryDimmed: #17171777;
+  --textColorSuperDimmed: #1717173a;
+}
+
+[data-theme="darkMonochromeTheme"] {
+  --textColor: #e0e0e0;
+  --textColorDimmed: #e0e0e0bb;
+  --textColorVeryDimmed: #e0e0e0a2;
+  --textColorSuperDimmed: #e0e0e03f;
+
+  --bgColor: #303030;
+  --bgColorDimmed: #303030e3;
+  --bgColorVeryDimmed: #30303077;
+
+  --borderColor: #696969;
+  --highlightColor: rgba(30, 30, 30, 0.89);
+}
+
+[data-theme="betaXTheme"] {
+  --redColor: #d126d4;
+  --redColor2: #c39f42;
+  --greenColor: #76d1aa;
+  --greenColor2: #2b58f8;
+  --textColor: #e0e0e0;
+  --textColorDimmed: #e0e0e0bb;
+  --textColorVeryDimmed: #e0e0e0a2;
+  --textColorSuperDimmed: #e0e0e03f;
+
+  --bgColor: #000804;
+  --bgColorAlpha: #000804aa;
+  --bgColorDimmed: #181818e2;
+  --bgColorVeryDimmed: #444040;
+
+  --borderColor: #515151;
+  --mainContrast: #5252ff;
+  --highlightColor: rgb(38, 38, 38);
+}
+
+html {
+  /*** Okotoki X - start ***/
+  --borderColorX: #fff;
+  /*** Okotoki X - end ***/
+
+  --mainColor: #fff50f;
+  --mainContrast: #5252ff;
+  --mainContrastGradient: linear-gradient(270deg, #5252ff 0%, #3f87da 100%);
+  /* Used directly for cards */
+
+  --textColor: #0c0c2b;
+
+  --textColorDimmed: #11113c;
+  --textColorVeryDimmed: #161646;
+  --textColorSuperDimmed: #242461;
+  --scrollColor: #555555;
+  --borderColor: #161644;
+  --darkColor: #0c0c2b;
+  --semiDark: #999;
+  --bgColor: #fff;
+  --bgColorDimmed: #ffffffe8;
+  --bgColorVeryDimmed: #ffffff77;
+  --highlightColor: #f3f3f3;
+
+  --textBgColorMix: color-mix(in srgb, var(--textColor) 2%, var(--bgColor));
+
+  --redColor: #f50d3f;
+  --redColor2: #ff0088;
+  --greenColor: #50b150;
+  --greenColor2: #1ea400;
+  --colorizedRedText: #fff;
+  --colorizedGreenText: #fff;
+
+  --fontSize-xs: 10px;
+  --fontSize-s: 12px;
+  --fontSize-m: 14px;
+  --fontSize-l: 20px;
+  --inputHeight-s: 24px;
+  --inputHeight-m: 32px;
+  --inputHeight-l: 40px;
+  --borderRadius-s: 2px;
+  --borderRadius-m: 3px;
+  --borderRadius-l: 4px;
+
+  --mainFont: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans,
+    Droid Sans, Helvetica Neue, sans-serif;
+  --monoFont: "IBM Plex Mono", Menlo, Monaco, Consolas, "Courier New", monospace;
+
+  max-width: 100%;
+  width: 100%;
+
+  height: -webkit-fill-available;
+
+  color: var(--textColor);
+  background-color: var(--bgColor);
+  font-family: var(--mainFont);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  max-width: 100%;
+  width: 100%;
+
+  min-height: 100vh;
+  min-height: -moz-available; /* WebKit-based browsers will ignore this. */
+  min-height: -webkit-fill-available; /* Mozilla-based browsers will ignore this. */
+}
+
+/* Firefox on windows/linux */
+.isWindows,
+.isLinux {
+  scrollbar-color: var(--scrollColor) var(--bgColor);
+  scrollbar-width: thin;
+}
+
+.isWindows div,
+.isLinux div {
+  scrollbar-width: thin;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--textColorSuperDimmed);
+  /* border-radius: 3px; */
+  /* border: 3px solid transparent; */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--textColorVeryDimmed);
+}

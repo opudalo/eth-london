@@ -1,0 +1,13 @@
+.item {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  position: relative;
+  margin: 10px 0;
+  font-size: 14px;
+}
+
+.input {
+  margin-left: auto;
+  cursor: pointer;
+}

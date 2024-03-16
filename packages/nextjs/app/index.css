@@ -1,0 +1,4 @@
+.x-main-container {
+  background-color: var(--bgColor);
+  color: var(--textColor);
+}

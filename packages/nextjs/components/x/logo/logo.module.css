@@ -1,0 +1,9 @@
+.logo {
+  --logoFillColor: var(--textColor);
+  display: inline-flex;
+  position: relative;
+}
+
+.logo svg > path {
+  fill: var(--logoFillColor);
+}

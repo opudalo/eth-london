@@ -1,0 +1,104 @@
+.button {
+  background: none;
+  font-weight: 400;
+  font-family: var(--mainFont);
+  text-transform: uppercase;
+
+  display: inline-flex;
+  outline: none;
+  border: none;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+
+  justify-content: center;
+  align-items: center;
+
+  --_bgColor: var(--textColor);
+  --_borderColor: transparent;
+  height: var(--_height);
+  border: 1px solid var(--_borderColor);
+  border-radius: var(--_borderRadius);
+  color: var(--bgColor);
+  background-color: var(--_bgColor);
+}
+
+.button:hover {
+  background-color: color-mix(in oklch, var(--_bgColor), transparent 7%);
+}
+
+.button:active {
+  box-shadow: 0 0 0 var(--_outlineWidth) color-mix(in oklch, transparent, var(--_bgColor) 40%);
+}
+
+.button.accent {
+  --_bgColor: var(--mainColor);
+  color: var(--darkColor);
+}
+
+.button.outline,
+.button.borderless {
+  --_bgColor: transparent;
+  color: var(--textColor);
+}
+
+.button.outline:hover,
+.button.borderless:hover {
+  --_bgColor: color-mix(in oklch, transparent, var(--textColor) 30%);
+}
+.button.outline:active {
+  box-shadow: 0 0 0 var(--_outlineWidth) var(--_bgColor);
+}
+
+.button.borderless:active {
+  --_shadowColor: color-mix(in oklch, transparent, var(--textColor) 10%);
+  box-shadow: 0 0 0 var(--_outlineWidth) var(--_shadowColor);
+}
+
+.button.outline {
+  --_borderColor: var(--textColor);
+}
+
+.link.button {
+  text-decoration: none;
+}
+
+.link:hover,
+.link:active {
+  background: none;
+  text-decoration: underline;
+}
+
+.large {
+  padding: 0 14px;
+  font-size: var(--fontSize-l);
+  --_height: var(--inputHeight-l);
+  --_borderRadius: 4px;
+  --_outlineWidth: 4px;
+}
+
+.medium {
+  padding: 0 10px;
+  font-size: var(--fontSize-m);
+  --_height: var(--inputHeight-m);
+  --_borderRadius: 3px;
+  --_outlineWidth: 3px;
+}
+
+.small {
+  padding: 0 6px;
+  font-size: var(--fontSize-s);
+  --_height: var(--inputHeight-s);
+  --_borderRadius: 2px;
+  --_outlineWidth: 2px;
+}
+
+.icon {
+  padding: 0;
+  width: var(--_height);
+}
+
+.button[data-disabled="true"] {
+  pointer-events: none;
+  opacity: 0.7;
+}

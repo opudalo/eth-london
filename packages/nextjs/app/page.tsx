@@ -1,68 +1,162 @@
 "use client";
 
-import Link from "next/link";
+import { PropsWithChildren, useEffect } from "react";
+import "./index.css";
+import $ from "./page.module.css";
+import { Atom, F, ReadOnlyAtom, classes } from "@grammarly/focal";
 import type { NextPage } from "next";
+import numbro from "numbro";
 import { useAccount } from "wagmi";
-import { BugAntIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { Address } from "~~/components/scaffold-eth";
+import { Button } from "~~/components/x/button";
+import { Input } from "~~/components/x/input";
+import { InputField } from "~~/components/x/inputField";
+import { Switcher } from "~~/components/x/switcher";
+import { get } from "http";
+import { getMaxListeners } from "process";
+
+interface LiquidityPool {
+  addr: string;
+  token1: string;
+  token1Symbol: string;
+  token2: string;
+  token2Symbol: string;
+  currentPrice: number;
+}
+
+interface OrderFormState {
+  liquidityPool: LiquidityPool;
+  // "buy" is to buy token1,
+  // "sell" is to sell token1
+  isBuyOperation: boolean;
+  amount: number;
+  frequency: number;
+  commitedFunds: number;
+}
+
+const getDefaultOrderFormState = (liquidityPool: LiquidityPool): OrderFormState => ({
+  liquidityPool,
+  isBuyOperation: true,
+  amount: 0,
+  frequency: 1000 * 60 * 60, // 1 hour
+  commitedFunds: 0,
+});
+
+const Step: React.FC<
+  PropsWithChildren<{
+    active?: ReadOnlyAtom<boolean>;
+    title: string;
+  }>
+> = ({ children, title, active }) => {
+  return (
+    <F.div {...classes($.step, active === undefined || !!active ? $.active : null)}>
+      <div {...classes($.stepTitle)}>{title}</div>
+      {children}
+    </F.div>
+  );
+};
+
+const formatInputValue = {
+  thousandSeparated: true,
+  // average: true,
+  optionalMantissa: true,
+  trimMantissa: true,
+  mantissa: 3,
+};
+
+const PepeCoin: LiquidityPool = {
+  addr: "0xddd23787a6b80a794d952f5fb036d0b31a8e6aff",
+  token1: "0xa9e8acf069c58aec8825542845fd754e41a9489a",
+  token1Symbol: "PEPE",
+  token2: "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+  token2Symbol: "ETH",
+  currentPrice: 0.000045,
+};
+
+const ETHUSDT: LiquidityPool = {
+  // ETH/USDT
+  addr: "0x0d4a11d5eeaac28ec3f61d100daf4d40471f1852",
+  // ETH
+  token1: "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+  token1Symbol: "ETH",
+  // USDT
+  token2: "0xdac17f958d2ee523a2206206994597c13d831ec7",
+  token2Symbol: "USDT",
+  currentPrice: 3669.45,
+};
+
+const getLiquidtyPoolFromAddress = (addr: string): LiquidityPool => {
+ // todo - implement properly
+}
 
 const Home: NextPage = () => {
   const { address: connectedAddress } = useAccount();
 
+  const lp = Atom.create<string>("0x0d4a11d5eeaac28ec3f61d100daf4d40471f1852");
+  const orderFormState = Atom.create<OrderFormState>(
+    getDefaultOrderFormState(Math.random() > 0.5 ? ETHUSDT : PepeCoin),
+  );
+
+  useEffect(() => {
+    lp.subscribe(x => {
+      console.log(x);
+      setTimeout(() => {
+        // todo - implement properly
+        const getLiquidityPoolFromAddress = (addr: string): LiquidityPool => {
+          return orderFormState.get().liquidityPool?.addr === PepeCoin.addr ? ETHUSDT : PepeCoin;
+        };
+        orderFormState.set(getDefaultOrderFormState(getLiquidityPoolFromAddress(x)));
+      }, 500);
+    });
+  }, []);
+
+  const formatNum = (x: number) => (x ? numbro(x).format(formatInputValue) : x.toString());
   return (
     <>
-      <div className="flex items-center flex-col flex-grow pt-10">
+      <div className="flex flex-col flex-grow pt-10 x-main-container">
         <div className="px-5">
-          <h1 className="text-center">
-            <span className="block text-2xl mb-2">Welcome to</span>
-            <span className="block text-4xl font-bold">Scaffold-ETH 2</span>
-          </h1>
-          <div className="flex justify-center items-center space-x-2">
-            <p className="my-2 font-medium">Connected Address:</p>
+          <div className="flex items-center space-x-2">
+            <p>Connected Address:</p>
             <Address address={connectedAddress} />
           </div>
-          <p className="text-center text-lg">
-            Get started by editing{" "}
-            <code className="italic bg-base-300 text-base font-bold max-w-full break-words break-all inline-block">
-              packages/nextjs/app/page.tsx
-            </code>
-          </p>
-          <p className="text-center text-lg">
-            Edit your smart contract{" "}
-            <code className="italic bg-base-300 text-base font-bold max-w-full break-words break-all inline-block">
-              YourContract.sol
-            </code>{" "}
-            in{" "}
-            <code className="italic bg-base-300 text-base font-bold max-w-full break-words break-all inline-block">
-              packages/hardhat/contracts
-            </code>
-          </p>
         </div>
 
-        <div className="flex-grow bg-base-300 w-full mt-16 px-8 py-12">
-          <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
-            <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
-              <BugAntIcon className="h-8 w-8 fill-secondary" />
-              <p>
-                Tinker with your smart contract using the{" "}
-                <Link href="/debug" passHref className="link">
-                  Debug Contracts
-                </Link>{" "}
-                tab.
-              </p>
+        <F.div className={$.orderForm}>
+          <div className={$.title}>Dollar Chad Average</div>
+          <Step title="Select Liquidity Pool">
+            <Input type="text" size={"large"} style={{ width: "100%" }} value={lp} />
+          </Step>
+          <Step title="Configure your order">
+            <div className={$.orderType}>
+              <span className={$.operation}>Buy</span>
+              <Switcher size={"large"} state={orderFormState.lens("isBuyOperation")} />
+              <span className={$.operation}>Sell</span>
             </div>
-            <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
-              <MagnifyingGlassIcon className="h-8 w-8 fill-secondary" />
-              <p>
-                Explore your local transactions with the{" "}
-                <Link href="/blockexplorer" passHref className="link">
-                  Block Explorer
-                </Link>{" "}
-                tab.
-              </p>
-            </div>
+
+            <InputField label="Amount">
+              <Input
+                type="number"
+                value={orderFormState.lens("amount")}
+                customValueWhenBlurred={orderFormState.lens("amount").view(formatNum)}
+              />
+            </InputField>
+            <InputField label="Frequency (ms)">
+              <Input type="number" value={orderFormState.lens("frequency")} />
+            </InputField>
+            <InputField label="Committed Funds">
+              <Input type="number" value={orderFormState.lens("commitedFunds")} />
+            </InputField>
+          </Step>
+          <div>
+            <Button
+              onClick={() => {
+                console.log(orderFormState.get());
+              }}
+            >
+              Submit order
+            </Button>
           </div>
-        </div>
+        </F.div>
       </div>
     </>
   );
