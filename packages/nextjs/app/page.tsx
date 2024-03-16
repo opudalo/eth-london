@@ -1,18 +1,17 @@
 "use client";
 
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, useEffect, useState } from "react";
 import "./index.css";
 import $ from "./page.module.css";
 import { Atom, F, ReadOnlyAtom, classes } from "@grammarly/focal";
 import type { NextPage } from "next";
-import { useTheme } from "next-themes";
 import { erc20ABI, useAccount, useContractRead } from "wagmi";
 import { TestTokens, TestUniLiquidityPool, UniTestToken, WETHTestToken } from "~~/components/stub-data";
 import { formatNum, times } from "~~/components/utils";
 import { Button } from "~~/components/x/button";
 import { Input } from "~~/components/x/input";
 import { Select } from "~~/components/x/select";
-import { useScaffoldContractRead, useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
+import { useDeployedContractInfo, useScaffoldContractRead, useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 
 export interface LiquidityPool {
   addr: string;
@@ -226,11 +225,43 @@ const myBalance = {
 type Balance = typeof myBalance;
 
 const Home: NextPage = () => {
-  const { setTheme } = useTheme();
-  setTheme("light");
-
   const { address: connectedAddress } = useAccount();
 
+  const [isMounted, setIsMounted] = useState(false);
+  useEffect(() => setIsMounted(true), []);
+
+  const { data: deployedContractData, isLoading: deployedContractLoading } = useDeployedContractInfo("DcaExecutor");
+  const { writeAsync: submitOrder } = useScaffoldContractWrite({
+    contractName: "DcaExecutor",
+    functionName: "submitDcaRequest",
+    args: [
+      WETHTestToken.addr,
+      UniTestToken.addr,
+      BigInt(0.001 * 1e18),
+      "0x3bFA4769FB09eefC5a80d6E87c3B9C650f7Ae48E",
+      BigInt(3),
+      BigInt((30 * 1000) / 1000),
+      BigInt(0),
+    ],
+  });
+
+  if (deployedContractLoading) {
+    return (
+      <div className="mt-14">
+        <span className="loading loading-spinner loading-lg"></span>
+      </div>
+    );
+  }
+
+  if (!isMounted) return null;
+
+  (window as any).xxxx = submitOrder;
+  // submitOrder();
+
+  return <XXX />;
+};
+
+const XXX = () => {
   const tokenContractAddress = Atom.create<string>(UniTestToken.addr);
   const orderFormState = Atom.create<OrderFormState>(getDefaultOrderFormState(TestUniLiquidityPool));
 
@@ -313,19 +344,6 @@ const Home: NextPage = () => {
                 size="large"
                 onClick={() => {
                   console.log(orderFormState.get());
-                  const { writeAsync: submitOrder } = useScaffoldContractWrite({
-                    contractName: "DcaExecutor",
-                    functionName: "submitDcaRequest",
-                    args: [
-                      UniTestToken.addr,
-                      WETHTestToken.addr,
-                      BigInt(orderFormState.lens("commitedFunds").get() * 1e18),
-                      "0x3bFA4769FB09eefC5a80d6E87c3B9C650f7Ae48E",
-                      BigInt(orderFormState.lens("amount").get()),
-                      BigInt(orderFormState.lens("frequency").get() / 1000),
-                      BigInt(0),
-                    ],
-                  });
 
                   submitOrder();
                 }}
