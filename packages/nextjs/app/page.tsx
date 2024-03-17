@@ -6,7 +6,15 @@ import $ from "./page.module.css";
 import { Atom, F, ReadOnlyAtom, classes } from "@grammarly/focal";
 import type { NextPage } from "next";
 import { erc20ABI, useAccount, useContractRead } from "wagmi";
-import { CakeTestToken, Dexs, TestUniLiquidityPool, TestTokens, UniTestToken, UniswapSepolia, WETHTestToken } from "~~/components/stub-data";
+import {
+  CakeTestToken,
+  Dexs,
+  TestTokens,
+  TestUniLiquidityPool,
+  UniTestToken,
+  UniswapSepolia,
+  WETHTestToken,
+} from "~~/components/stub-data";
 import { formatNum, times } from "~~/components/utils";
 import { Button } from "~~/components/x/button";
 import { Input } from "~~/components/x/input";
@@ -223,7 +231,7 @@ const getLiquidtyPoolFromAddress = (addr: string): LiquidityPool => {
 const myBalance = {
   [UniTestToken.addr]: 100,
   [WETHTestToken.addr]: 4,
-  [CakeTestToken.addr]: 200
+  [CakeTestToken.addr]: 200,
 };
 
 type Balance = typeof myBalance;
@@ -234,9 +242,14 @@ const Home: NextPage = () => {
   const [isMounted, setIsMounted] = useState(false);
   useEffect(() => setIsMounted(true), []);
 
-  if (!isMounted) return null;
+  if (!isMounted || !connectedAddress) return null;
 
-  return <XXX />;
+  return (
+    <>
+      {/* <OrderHistory address={connectedAddress} /> */}
+      <XXX addr={connectedAddress} />;
+    </>
+  );
 };
 
 const ContractSubmitter: React.FC<{ orderFormState: OrderFormState }> = ({ orderFormState }) => {
@@ -276,7 +289,134 @@ const ContractSubmitter: React.FC<{ orderFormState: OrderFormState }> = ({ order
     );
   }
 };
-const XXX = () => {
+
+type OrderItemTransformed = ReturnType<typeof destructOrder>;
+const destructOrder = (
+  order: readonly [string, string, string, bigint, bigint, bigint, string, bigint, bigint, bigint, bigint, bigint],
+): {
+  receiver: string;
+  token1: string;
+  token2: string;
+  token1InitialAmount: number;
+  token1Amount: number;
+  token2Amount: number;
+  startTimestamp: number;
+  swapExecutionPeriod: number;
+  numberOfSwapsToExecute: number;
+  numberOfSwapsExecuted: number;
+  lastExecutionTimestamp: number;
+  router: string;
+} => {
+  const [
+    receiver,
+    token1,
+    token2,
+    token1InitialAmount,
+    token1Amount,
+    token2Amount,
+    router,
+    swapExecutionPeriod,
+    startTimestamp,
+    numberOfIterationsLeft,
+    initialIterations,
+    lastExecutionTimestamp,
+  ] = order;
+  return {
+    receiver,
+    token1,
+    token2,
+    token1InitialAmount: Number(token1InitialAmount) / Math.pow(10, 18),
+    token1Amount: Number(token1Amount) / Math.pow(10, 18),
+    token2Amount: Number(token2Amount) / Math.pow(10, 18),
+    router: router,
+    swapExecutionPeriod: Number(swapExecutionPeriod),
+    numberOfSwapsToExecute: Number(numberOfIterationsLeft),
+    numberOfSwapsExecuted: Number(initialIterations),
+    startTimestamp: Number(startTimestamp) * 1000,
+    lastExecutionTimestamp: Number(lastExecutionTimestamp) * 1000,
+  };
+};
+
+/*
+receiver: 0x8C4cD8D4C706f881FA8A550e86F0F925466d8B18
+token1: 0xfFf9976782d46CC05630D1f6eBAb18b2324d6B14
+token2: 0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984
+token1InitialAmount: 0.034698622270415744
+token1Amount: 0.02313241484694383
+token2Amount: 0.003935270657632643
+router: 0x3bFA4769FB09eefC5a80d6E87c3B9C650f7Ae48E
+swapExecutionPeriod: 3600
+numberOfSwapsToExecute: 2
+numberOfSwapsExecuted: 1
+startTimestamp: 0
+lastExecutionTimestamp: 1710664320000
+receiver: 0x8C4cD8D4C706f881FA8A550e86F0F925466d8B18
+token1: 0xfFf9976782d46CC05630D1f6eBAb18b2324d6B14
+token2: 0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984
+token1InitialAmount: 0.023
+token1Amount: 0.00575
+token2Amount: 0.005868973161877472
+router: 0x3bFA4769FB09eefC5a80d6E87c3B9C650f7Ae48E
+swapExecutionPeriod: 60
+numberOfSwapsToExecute: 1
+numberOfSwapsExecuted: 3
+startTimestamp: 0
+lastExecutionTimestamp: 1710664764000
+*/
+
+const OrderItem: React.FC<{ address: string; requestInx: number }> = ({ address, requestInx }) => {
+  const { data: request } = useScaffoldContractRead({
+    contractName: "DcaExecutor",
+    functionName: "dcaRequests",
+    args: [address, BigInt(requestInx)],
+  });
+
+  if (!request) return null;
+  const order = destructOrder(request);
+
+  return (
+    <div>
+      {order
+        ? // <div>
+          //   { }
+          // </div>
+          Object.entries(order).map(([key, val], i) => (
+            <div>
+              <b>{key}</b>: {val}
+            </div>
+          ))
+        : "no"}
+    </div>
+  );
+};
+
+const OrderHistory: React.FC<{ address: string }> = ({ address }) => {
+  const { data: requestLength } = useScaffoldContractRead({
+    contractName: "DcaExecutor",
+    functionName: "activeRequestsLength",
+    args: [address],
+  });
+
+  const [isMounted, setIsMounted] = useState(false);
+  useEffect(() => setIsMounted(true), []);
+
+  if (!isMounted) return null;
+
+  if (!requestLength) return <>NOT YET</>;
+  return (
+    <>
+      {new Array<string>(Number(requestLength)).fill("x").map((_, i) => {
+        return (
+          <div key={i}>
+            <OrderItem address={address} requestInx={i} />
+          </div>
+        );
+      })}
+    </>
+  );
+};
+
+const XXX: React.FC<{ addr: string }> = ({ addr }) => {
   const tokenContractAddress = Atom.create<string>(UniTestToken.addr);
   const orderFormState = Atom.create<OrderFormState>(getDefaultOrderFormState(TestUniLiquidityPool));
   const isSubmitted = Atom.create(false);
@@ -315,8 +455,8 @@ const XXX = () => {
                     </option>
                   ))}
                 </Select>{" "}
-                 on {" "}
-                 <Select value={dexRouter} size="large">
+                on{" "}
+                <Select value={dexRouter} size="large">
                   {Dexs.map((x, i) => (
                     <option key={i} value={x.router}>
                       {x.name}
