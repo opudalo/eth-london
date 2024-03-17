@@ -10,7 +10,7 @@ Dollar Chad Average enables users to execute **private Dollar-Cost-Average (DCA)
 
 Dynamic React SDK is used for User on-boarding and authentication methods. The contract is deployed on Base, Arbitrum, Ethereum, and Binance Smart Chain. Users benefit from all upstream Uniswap improvements. It will support Safe accounts v1.4.1 using Safe 4337 Module and Pimlico for Account Abstraction & Sponsorship policies.
 
-![Hackathon Frontend](https://github.com/opudalo/eth-london/blob/main/packages/nextjs/public/example-front.png?raw=true)
+![Hackathon Frontend](https://github.com/opudalo/eth-london/blob/main/packages/nextjs/public/example-front2.jpeg?raw=true)
 
 
 - ✅ **Contract Hot Reload**: Your frontend auto-adapts to your smart contract as you edit it.
