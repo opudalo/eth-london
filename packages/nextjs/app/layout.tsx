@@ -52,6 +52,7 @@ const ScaffoldEthApp = ({ children }: { children: React.ReactNode }) => {
   return (
     <html suppressHydrationWarning>
       <DynamicContextProvider
+        theme="dark"
         settings={{
           environmentId: "08561cd5-d9ce-4db4-8d10-1ddc9a053fcc",
           walletConnectors: [EthereumWalletConnectors],
