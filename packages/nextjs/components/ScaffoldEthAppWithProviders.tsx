@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { DynamicWidget } from "../lib/dynamic";
+import { DynamicWidget, useDynamicContext } from "../lib/dynamic";
 import { SVGWrap } from "./x/icons/svgWrap";
 import { RainbowKitProvider, darkTheme, lightTheme } from "@rainbow-me/rainbowkit";
 import { useTheme } from "next-themes";
@@ -28,6 +28,8 @@ const Logo = () => {
   );
 };
 const ScaffoldEthApp = ({ children }: { children: React.ReactNode }) => {
+  const { primaryWallet } = useDynamicContext();
+  console.log(primaryWallet);
   const price = useNativeCurrencyPrice();
   const setNativeCurrencyPrice = useGlobalState(state => state.setNativeCurrencyPrice);
 
@@ -42,8 +44,9 @@ const ScaffoldEthApp = ({ children }: { children: React.ReactNode }) => {
       <div className="flex flex-col min-h-screen">
         <div className="min-h-0 py-5 px-1 mb-11 lg:mb-0 text-center">
           <Logo />
-          <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
+          <div className="z-10 w-full justify-center font-mono text-sm lg:flex">
             <DynamicWidget />
+            {/* <div>{primaryWallet && primaryWallet.address}</div> */}
           </div>
         </div>
         <></>
