@@ -14,6 +14,9 @@
     "vercel:yolo": "vercel --build-env NEXT_PUBLIC_IGNORE_BUILD_ERROR=true"
   },
   "dependencies": {
+    "@dynamic-labs/ethereum": "^1.3.1",
+    "@dynamic-labs/sdk-react-core": "^1.3.1",
+    "@dynamic-labs/wagmi-connector": "^1.3.1",
     "@ethersproject/providers": "^5.7.2",
     "@grammarly/focal": "^0.11.0",
     "@heroicons/react": "^2.0.11",
@@ -35,7 +38,7 @@
     "rxjs": "^7.8.1",
     "use-debounce": "^8.0.4",
     "usehooks-ts": "^2.13.0",
-    "viem": "1.19.9",
+    "viem": "1",
     "wagmi": "1.4.12",
     "zustand": "^4.1.2"
   },

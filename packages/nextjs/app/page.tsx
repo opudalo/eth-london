@@ -1,6 +1,7 @@
 "use client";
 
 import { PropsWithChildren, useEffect, useState } from "react";
+import { useDynamicContext } from "../lib/dynamic";
 import "./index.css";
 import $ from "./page.module.css";
 import { Atom, F, ReadOnlyAtom, classes } from "@grammarly/focal";
@@ -237,7 +238,9 @@ const myBalance = {
 type Balance = typeof myBalance;
 
 const Home: NextPage = () => {
-  const { address: connectedAddress } = useAccount();
+  const { primaryWallet: connectedAddress } = useDynamicContext();
+
+  // {connectedAddress && connectedAddress.address}
 
   const [isMounted, setIsMounted] = useState(false);
   useEffect(() => setIsMounted(true), []);
