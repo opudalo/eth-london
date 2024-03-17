@@ -1184,7 +1184,7 @@ const deployedContracts = {
   },
   11155111: {
     DcaExecutor: {
-      address: "0x64EA27E2985F03B0Cac385EeDC678bfEdECDC6D5",
+      address: "0xa86cd60B5eEDA836cb02F374dDcD0DC8Dd2E64Ed",
       abi: [
         {
           anonymous: false,
