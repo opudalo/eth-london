@@ -1,3 +1,4 @@
+import { DynamicContextProvider, DynamicWagmiConnector, EthereumWalletConnectors } from "../lib/dynamic";
 import "@rainbow-me/rainbowkit/styles.css";
 import { Metadata } from "next";
 import { ScaffoldEthAppWithProviders } from "~~/components/ScaffoldEthAppWithProviders";
@@ -50,11 +51,20 @@ export const metadata: Metadata = {
 const ScaffoldEthApp = ({ children }: { children: React.ReactNode }) => {
   return (
     <html suppressHydrationWarning>
-      <body>
-        <ThemeProvider enableSystem>
-          <ScaffoldEthAppWithProviders>{children}</ScaffoldEthAppWithProviders>
-        </ThemeProvider>
-      </body>
+      <DynamicContextProvider
+        settings={{
+          environmentId: "08561cd5-d9ce-4db4-8d10-1ddc9a053fcc",
+          walletConnectors: [EthereumWalletConnectors],
+        }}
+      >
+        <DynamicWagmiConnector>
+          <body>
+            <ThemeProvider enableSystem>
+              <ScaffoldEthAppWithProviders>{children}</ScaffoldEthAppWithProviders>
+            </ThemeProvider>
+          </body>
+        </DynamicWagmiConnector>
+      </DynamicContextProvider>
     </html>
   );
 };
