@@ -1,12 +1,21 @@
 "use client";
 
 import { PropsWithChildren, useEffect, useState } from "react";
+import { useDynamicContext } from "../lib/dynamic";
 import "./index.css";
 import $ from "./page.module.css";
 import { Atom, F, ReadOnlyAtom, classes } from "@grammarly/focal";
 import type { NextPage } from "next";
 import { erc20ABI, useAccount, useContractRead } from "wagmi";
-import { CakeTestToken, Dexs, TestUniLiquidityPool, TestTokens, UniTestToken, UniswapSepolia, WETHTestToken } from "~~/components/stub-data";
+import {
+  CakeTestToken,
+  Dexs,
+  TestTokens,
+  TestUniLiquidityPool,
+  UniTestToken,
+  UniswapSepolia,
+  WETHTestToken,
+} from "~~/components/stub-data";
 import { formatNum, times } from "~~/components/utils";
 import { Button } from "~~/components/x/button";
 import { Input } from "~~/components/x/input";
@@ -223,13 +232,15 @@ const getLiquidtyPoolFromAddress = (addr: string): LiquidityPool => {
 const myBalance = {
   [UniTestToken.addr]: 100,
   [WETHTestToken.addr]: 4,
-  [CakeTestToken.addr]: 200
+  [CakeTestToken.addr]: 200,
 };
 
 type Balance = typeof myBalance;
 
 const Home: NextPage = () => {
-  const { address: connectedAddress } = useAccount();
+  const { primaryWallet: connectedAddress } = useDynamicContext();
+
+  // {connectedAddress && connectedAddress.address}
 
   const [isMounted, setIsMounted] = useState(false);
   useEffect(() => setIsMounted(true), []);
@@ -315,8 +326,8 @@ const XXX = () => {
                     </option>
                   ))}
                 </Select>{" "}
-                 on {" "}
-                 <Select value={dexRouter} size="large">
+                on{" "}
+                <Select value={dexRouter} size="large">
                   {Dexs.map((x, i) => (
                     <option key={i} value={x.router}>
                       {x.name}
