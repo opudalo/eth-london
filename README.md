@@ -1,21 +1,23 @@
-# 🏗 Scaffold-ETH 2
+Live deployment: https://dollar-chad-average.vercel.app
 
-<h4 align="center">
-  <a href="https://docs.scaffoldeth.io">Documentation</a> |
-  <a href="https://scaffoldeth.io">Website</a>
-</h4>
+## Dollar Chad Average
 
-🧪 An open-source, up-to-date toolkit for building decentralized applications (dapps) on the Ethereum blockchain. It's designed to make it easier for developers to create and deploy smart contracts and build user interfaces that interact with those contracts.
+Private & Capital Efficient [meme]Coin DCAing. There is no third-party risk, since the DCA is executed by a smart contract. The assets that are waiting to be spent are then lent, earning interest until the order executes.
 
-⚙️ Built using NextJS, RainbowKit, Hardhat, Wagmi, Viem, and Typescript.
+Dollar Chad Average enables users to execute **private Dollar-Cost-Average (DCA)** buys or sells from their home wallet without fear of being copy-traded. Users also benefit from free transactions while earning interest on their invested amount though LPing. Users then retain the potential to end net positive ("negative gas")-- if the interest on invested liquidity surpasses gas fees incurred.
+
+⚙️ Built using Dynamic, NextJS, RainbowKit, Hardhat, Wagmi, Viem, and Typescript.
+
+Dynamic React SDK is used for User on-boarding and authentication methods. The contract is deployed on Base, Arbitrum, Ethereum, and Binance Smart Chain. Users benefit from all upstream Uniswap improvements. It will support Safe accounts v1.4.1 using Safe 4337 Module and Pimlico for Account Abstraction & Sponsorship policies.
+
+![Hackathon Frontend](https://github.com/opudalo/eth-london/blob/main/packages/nextjs/public/example-front.png?raw=true)
+
 
 - ✅ **Contract Hot Reload**: Your frontend auto-adapts to your smart contract as you edit it.
 - 🪝 **[Custom hooks](https://docs.scaffoldeth.io/hooks/)**: Collection of React hooks wrapper around [wagmi](https://wagmi.sh/) to simplify interactions with smart contracts with typescript autocompletion.
 - 🧱 [**Components**](https://docs.scaffoldeth.io/components/): Collection of common web3 components to quickly build your frontend.
 - 🔥 **Burner Wallet & Local Faucet**: Quickly test your application with a burner wallet and local faucet.
 - 🔐 **Integration with Wallet Providers**: Connect to different wallet providers and interact with the Ethereum network.
-
-![Debug Contracts tab](https://github.com/scaffold-eth/scaffold-eth-2/assets/55535804/b237af0c-5027-4849-a5c1-2e31495cccb1)
 
 ## Requirements
 
