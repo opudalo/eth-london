@@ -202,7 +202,7 @@ const getDefaultOrderFormState = (liquidityPool: LiquidityPool): OrderFormState 
   liquidityPool,
   operation: "buy",
   amount: 3,
-  frequency: 1000 * 60 * 60, // 1 hour
+  frequency: 1000 * 15, // 1 hour
   commitedFunds: getTokenBalanceOfUser(
     "0xE2eE625D83C68123aCa4251d6a82f23b70d9eEE3",
     "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
@@ -242,12 +242,14 @@ const Home: NextPage = () => {
   const [isMounted, setIsMounted] = useState(false);
   useEffect(() => setIsMounted(true), []);
 
-  if (!isMounted || !connectedAddress) return null;
+  if (!isMounted) return null;
 
+  {
+    /* <OrderHistory address={connectedAddress} /> */
+  }
   return (
     <>
-      {/* <OrderHistory address={connectedAddress} /> */}
-      <XXX addr={connectedAddress} />;
+      <XXX />;
     </>
   );
 };
@@ -415,14 +417,14 @@ const OrderHistory: React.FC<{ address: string }> = ({ address }) => {
   );
 };
 
-const XXX: React.FC<{ addr: string }> = ({ addr }) => {
+const XXX = () => {
   const tokenContractAddress = Atom.create<string>(UniTestToken.addr);
   const orderFormState = Atom.create<OrderFormState>(getDefaultOrderFormState(TestUniLiquidityPool));
   const isSubmitted = Atom.create(false);
   const dexRouter = Atom.create<string>(UniswapSepolia.router);
 
   return (
-    <F.Fragment>
+    <>
       <div className="flex flex-col flex-grow x-main-container">
         <F.div className={$.wrap}>
           <F.div className={$.orderForm}>
@@ -529,7 +531,7 @@ const XXX: React.FC<{ addr: string }> = ({ addr }) => {
           </div> */}
         </F.div>
       </div>
-    </F.Fragment>
+    </>
   );
 };
 
